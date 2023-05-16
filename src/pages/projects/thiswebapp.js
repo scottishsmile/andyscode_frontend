@@ -71,7 +71,9 @@ const ThisWebApp = () => {
                 <p></p>
                 <br />
                 <h3>Repo</h3>
-                <p>Github Repo for the project is here - <Link href="https://github.com/scottishsmile/AuthProject" >Repo</Link></p>
+                <p>Github Repo for the project is here:</p>
+                <p>NextJS FrontEnd<Link href="https://github.com/scottishsmile/andyscode_frontend" >Repo</Link></p>
+                <p>ASP.NET Backend<Link href="https://github.com/scottishsmile/andyscode_backend" >Repo</Link></p>
                 <br />
                 </div>
             </div>
