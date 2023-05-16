@@ -1,0 +1,193 @@
+@import "@/styles/Variables.module.scss";
+
+.pagecontainer{
+    padding-top: 5%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    padding-bottom: 1.5rem; 
+    padding-left: 2.5rem;
+    padding-right: 2.5rem; 
+    background-color: $light; 
+}
+
+.mainContainer {
+    display: flex; 
+    flex-direction: row;
+    margin-top: 1rem; 
+    margin-bottom: 0.5rem;
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.title {
+    color: $primary;
+    font-family: 'BadScript';
+}
+
+.categoryLabel {
+    text-align: right;
+}
+
+.coverImgContainer {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.coverImg {
+    border-radius: 15px;
+}
+
+.authorBarContainer {
+    background-color: $light; 
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; 
+    border-radius: 15px; 
+}
+
+.authorImgContainer {
+    display: flex; 
+    flex-direction: row;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem; 
+    justify-content: center;
+    align-items: center; 
+    border-radius: 15px; 
+
+    h4 {
+        color: $primary;
+    }
+}
+
+.authorImg {
+    display: block;
+    object-fit: cover; 
+    margin-left: 1rem;
+    margin-right: 1rem; 
+    height: auto;
+    border-radius: 15px; 
+}
+
+.date {
+    padding-right: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem; 
+}
+
+.blogText {
+    margin-top: 1rem;
+    font-size: 20px;
+    color: $dark;
+    font-family: 'Thasadith';
+
+    // Images inside the markdown text
+    img {
+        margin: 30px 0;
+        width: 30vw;
+    }
+
+    // Markdown headers
+    h1, h2, h3 {
+        padding-top: 2rem;
+        color: $primary;
+    }
+
+    // Markdown code blocks start with <pre>
+    pre {
+        color: darkgreen;
+        background-color: lightgrey;
+        border-radius: 0.7%;
+        padding: 0.5rem;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+}
+
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .blogText {
+        
+        // Images inside the markdown text
+        img {
+            margin: 30px 0;
+            width: 40vw;
+        }
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+
+    .date {
+        font-size: 20px;
+    }
+
+    .blogText {
+        font-size: 24px;
+
+        // Images inside the markdown text
+        img {
+            margin: 30px 0;
+            width: 50vw;
+        }
+    }
+
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    .mainContainer {
+        flex-direction: column;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+    
+    .categoryLabel {
+        font-size: 14px;
+    }
+
+    .authorBarContainer {
+        flex-direction: column;
+    }
+
+    .authorImgContainer {
+        justify-content: center;
+
+        h4 {
+            font-size: 16px;
+            padding: 0rem;
+        }
+    }
+    .authorImg {
+        display: none;              // Hide Author Images.
+    }
+
+    .date {
+        font-size: 14px;
+        padding: 0rem;
+    }
+
+    .blogText {
+        font-size: 22px;
+
+        // Images inside the markdown text
+        img {
+            margin: 30px 0;
+            width: 60vw;
+        }
+    }
+    
+}

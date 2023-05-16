@@ -1,0 +1,36 @@
+@import "@/styles/Variables.module.scss";
+
+.pagecontainer {
+    padding-top: 5%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+}
+
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .pagecontainer {
+        padding-top: 8%;
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .pagecontainer {
+        padding-top: 10%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    // Make the login box fit the smaller screen
+    .pagecontainer {
+        padding-top: 20%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+}

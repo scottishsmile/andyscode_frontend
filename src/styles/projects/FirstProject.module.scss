@@ -1,0 +1,107 @@
+@import "@/styles/Variables.module.scss";
+
+.pagecontainer {
+    padding-top: 5rem;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    padding-bottom: 4.5rem; 
+    padding-left: 2.5rem;
+    padding-right: 2.5rem; 
+    background-color: $light;
+}
+
+.headerText {
+    text-align: center;
+    font-family: 'BadScript';
+    color: $primary;
+}
+
+.screenShotContainer {
+
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 60vw;
+    height: auto;
+    margin: 0 auto;
+
+    .screenShot {
+        border: 3px solid $primary;
+    }
+}
+
+.textBlobsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.textBlob {
+    padding-top: 1rem;
+    width: 50%;
+    margin: 0 auto;
+
+    h3 {
+        font-family: 'Bungee';
+        color: $primary;
+    }
+
+    p {
+        font-family: 'Thasadith';
+        font-size: large;
+    }
+}
+
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .pagecontainer {
+        padding-top: 5rem;
+    }
+
+    .textBlob {
+        width: 70%;
+    }
+
+    .screenShotContainer {
+        width: 70vw;
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .pagecontainer {
+        padding-top: 6rem;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+
+    .textBlob {
+        width: 90%;
+    }
+
+    .screenShotContainer {
+        width: 70vw;
+    }
+
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    // Make the login box fit the smaller screen
+    .pagecontainer {
+        padding-top: 8rem;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+
+    .textBlob {
+        width: 95%;
+    }
+
+    .screenShotContainer {
+        width: 80vw;
+    }
+}

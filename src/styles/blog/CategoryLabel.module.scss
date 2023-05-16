@@ -1,0 +1,23 @@
+@import "@/styles/Variables.module.scss";
+
+.categoryContainer {
+    background-color: $tertiary;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem; 
+    padding-left: 0.5rem;
+    padding-right: 0.5rem; 
+    border-radius: 0.25rem; 
+    text-decoration: none;
+}
+
+.categoryLink {
+    color: $light;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.categoryLink:hover {
+    text-decoration: underline;
+    color: $primary;
+
+}

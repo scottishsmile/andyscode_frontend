@@ -1,0 +1,77 @@
+@import "@/styles/Variables.module.scss";
+
+// Desktops
+
+.loginpage {
+    padding-top: 6rem;
+    position: relative;
+    z-index: 1;
+    background-color: transparent;
+    filter: brightness(100%);
+    background-image: url('/login-background.jpg');
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+}
+
+.syncloader {
+    color: $primary;
+    background-color: $primary;
+}
+
+.loginBoxHeader {
+    color: $primary;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'BadScript';
+}
+
+.loginBoxText{
+    color: $primary;
+}
+
+.loginBoxTextBottom{
+    color: $primary;
+    text-align: center;
+
+    .loginBoxLink {
+        color: $secondary;
+    }
+
+    .loginBoxLink:hover {
+        color: $tertiary;
+    }
+}
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .pagecontainer {
+        padding-top: 6rem;
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .loginpage {
+        padding-top: 6rem;
+        padding-left: 2%;
+        padding-right: 2%;
+
+    }
+}
+
+// Mobiles
+@media (max-width:500px){
+
+    // Make the login box fit the smaller screen
+    .loginpage {
+        padding-top: 8rem;
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+}

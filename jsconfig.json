@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+      "baseUrl": "./src/",
+      "paths": {
+        "@/auth/*" : ["pages/api/auth/*"],
+        "@/blog/*" : ["pages/blog/*"],
+        "@/components/*": ["components/*"],
+        "@/constants*": ["constants/*"],
+        "@/logger/*": ["logger/*"],
+        "@/models/*": ["models/*"],
+        "@/reducers/*": ["reducers/*"],
+        "@/shared/*": ["shared/*"],
+        "@/slices/*": ["slices/*"],
+        "@/store/*": ["store/*"],
+        "@/styles/*": ["styles/*"],
+        "@/utils/*": ["utils/*"],
+      }
+    },
+    "exclude": [
+      "node_modules"
+    ]
+}

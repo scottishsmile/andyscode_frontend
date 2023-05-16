@@ -1,0 +1,205 @@
+@import "@/styles/Variables.module.scss";
+
+.postContainer {
+    position: relative;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem; 
+    padding-left: 2.5rem;
+    padding-right: 2.5rem; 
+    margin-top: 1.5rem; 
+    background-color: $light; 
+    width: 95%; 
+    height: auto;
+    border-radius: 0.5rem; 
+    box-shadow:
+        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+        0 12.5px 10px rgba(0, 0, 0, 0.06),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+        0 100px 80px rgba(0, 0, 0, 0.12)
+        ;
+}
+
+.postImage {
+    margin-bottom: 1rem; 
+    border-radius: 0.25rem; 
+    text-align: center; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 16px;     
+}
+
+.date {
+    font-weight: 400; 
+    color: $dark;
+    font-size: 16px; 
+}
+
+.compactDate {
+    font-weight: 400; 
+    color: $dark;
+    font-size: 12px; 
+}
+
+.content {
+    margin-top: 0.5rem; 
+}
+
+.link {
+    color: $dark; 
+    font-size: 1.5rem;
+    line-height: 2rem; 
+    font-weight: 700;
+    text-decoration: none; 
+}
+
+.compactLink {
+    color: $dark; 
+    font-size: 1rem;
+    line-height: 1rem; 
+    font-weight: 700;
+    text-decoration: none; 
+}
+
+.link:hover {
+    color: $tertiary;
+    text-decoration: underline; 
+}
+
+.contentText {
+    margin-top: 0.5rem; 
+    color: $dark; 
+}
+
+.compactContentText {
+    font-size: 16px;
+    color: $dark; 
+}
+
+.readMoreContainer {
+    display: flex; 
+    margin-top: 1.5rem; 
+    justify-content: space-between; 
+    align-items: center; 
+
+    p {
+        color: $primary; 
+        line-height: 2rem; 
+        font-weight: 700;
+        text-decoration: none; 
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.readMoreLink{
+    color: $tertiary; 
+    line-height: 2rem; 
+    font-weight: 700;
+    text-decoration: none; 
+}
+
+.readMoreLink:hover {
+    color: $primary;
+    text-decoration: underline; 
+}
+
+.authorContainer {
+    display: flex; 
+    justify-content: center;
+}
+
+.authorPicAndName {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.authorImgContainer {
+    position: relative;
+    display: block;
+    width: 3.5rem; 
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.authorImg {
+    border-radius: 10px;
+}
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .postImage {
+        width: 80%;
+        height: 80%; 
+    }
+    
+    .readMoreContainer {
+    
+        p {
+            font-size: 0.7rem;
+        }
+    }
+    
+    .readMoreLink{
+        font-size: 0.7rem;
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .postImage {
+        width: 70%;
+        height: 70%; 
+    }
+
+    .text {
+        font-size: 16px;   
+    }
+    
+    .date {
+        font-size: 16px; 
+    }
+
+
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    .postImage {
+        width: 50%;
+        height: 50%; 
+    }
+
+    .text {
+        font-size: 18px;   
+    }
+    
+    .date {
+        font-size: 18px; 
+    }
+
+    .authorImg {
+        display: none;              // Hide Author Images.
+    }
+    
+}

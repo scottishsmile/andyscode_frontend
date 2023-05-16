@@ -1,0 +1,113 @@
+@import "@/styles/Variables.module.scss";
+
+.pagecontainer {
+    padding-top: 5%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+}
+
+.headerH1 {
+    padding: 1.25rem; 
+    font-size: 3rem;
+    line-height: 1; 
+    font-weight: 700; 
+    border-bottom-width: 4px; 
+    text-align: center;
+    color: $primary;
+    font-family: 'BadScript';
+}
+
+
+.columnContainer {
+    display: flex; 
+    justify-content: space-between; 
+
+}
+
+.leftColumn {
+    margin-right: 0.5rem; 
+    width: 85%; 
+}
+
+.rightColumn {
+    width: 14%;
+    margin-right: 0.5rem; 
+}
+
+.postsContainer {
+    display: grid; 
+    gap: 1.25rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));  
+    color: $dark;
+}
+
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .pagecontainer {
+        padding-top: 8%;
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .pagecontainer {
+        padding-top: 10%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+
+    .postsContainer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));   // Posts in 2 columns for tablets
+    }
+
+    // Change Categories Right-column to display after the left column not beside it.
+    .columnContainer {
+        flex-direction: column;     
+    }
+
+    .rightColumn {
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .leftColumn {
+        margin-right: 0rem; 
+        width: 100%;
+    }
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    // Make the login box fit the smaller screen
+    .pagecontainer {
+        padding-top: 20%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+
+    .postsContainer {
+        grid-template-columns: repeat(1, minmax(0, 1fr));       // Posts in 1 column for mobiles
+
+    }
+
+    
+    // Change Categories Right-column to display after the left column not beside it.
+    .columnContainer {
+        flex-direction: column;     
+    }
+
+    .rightColumn {
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .leftColumn {
+        margin-right: 0rem; 
+        width: 100%;
+    }
+}

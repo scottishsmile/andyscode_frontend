@@ -1,0 +1,66 @@
+@import "@/styles/Variables.module.scss";
+
+.pagecontainer {
+    padding-top: 6rem;                     // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    background-color: silver;
+    width: 100vw;
+    height: 100vh;
+}
+
+.passwordBoxHeader {
+    color: $primary;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'BadScript';
+}
+
+.passwordBoxText{
+    color: $primary;
+}
+
+.passwordBoxTextBottom {
+    color: $primary;
+    text-align: center;
+
+    .passwordBoxLink {
+        color: $secondary;
+    }
+
+    .passwordBoxLink:hover {
+        color: $tertiary;
+    }
+}
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .pagecontainer {
+        padding-top: 6rem;
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .pagecontainer {
+        padding-top: 6rem;                       // The navbar will take up the top part of the screen and overlay the start of the div without this.
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    // Make the login box fit the smaller screen
+    .pagecontainer {
+        padding-top: 8rem;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+}

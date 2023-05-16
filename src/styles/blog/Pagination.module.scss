@@ -1,0 +1,123 @@
+@import "@/styles/Variables.module.scss";
+
+.paginationContainer {
+    margin-top: 1.5rem;
+}
+
+.pageNumList {
+    display: flex; 
+    padding-left: 0; 
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem; 
+    list-style-type: none; 
+}
+
+.previousLink {
+    text-decoration: none;
+    padding-left: 0.75rem;
+}
+
+.previousLink:hover {
+    text-decoration: underline;
+}
+
+.previousLi {
+    display: block; 
+    position: relative; 
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    margin-right: 0.25rem; 
+    color: $dark;
+    background-color: $light; 
+    line-height: 1.25; 
+    border-width: 1px; 
+    border-color: $dark; 
+    text-decoration: none;
+    cursor: pointer; 
+}
+
+.previousLi:hover {
+    color: $light;
+    background-color: $tertiary;
+}
+
+.pageNumLink {
+    text-decoration: none;
+    padding-left: 0.75rem;
+}
+
+.pageNumLink:hover {
+    text-decoration: underline;
+}
+
+.pageNumLi {
+    display: block; 
+    position: relative; 
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    margin-right: 0.25rem; 
+    background-color: $light; 
+    color: $dark; 
+    line-height: 1.25; 
+    border-width: 1px; 
+    border-color: $gray; 
+    text-decoration: none;
+    cursor: pointer; 
+}
+
+.pageNumLi:hover {
+    color: $light;
+    background-color: $tertiary;
+}
+
+.pageNumCurrent {
+    display: block; 
+    position: relative; 
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    margin-right: 0.25rem; 
+    background-color: $dark; 
+    color: $light; 
+    line-height: 1.25; 
+    border-width: 1px; 
+    border-color: $dark; 
+    text-decoration: none;
+    cursor: pointer; 
+}
+
+.nextLink {
+    text-decoration: none;
+    padding-left: 0.75rem;
+}
+
+.nextLink:hover {
+    text-decoration: underline;
+}
+
+.nextLi {
+    display: block; 
+    position: relative; 
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    margin-right: 0.25rem; 
+    color: $dark;
+    background-color: $light; 
+    line-height: 1.25; 
+    border-width: 1px; 
+    border-color: $dark; 
+    text-decoration: none;
+    cursor: pointer; 
+}
+
+.nextLi:hover {
+    color: $light;
+    background-color: $tertiary;
+}

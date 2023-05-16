@@ -1,0 +1,125 @@
+@import "@/styles/Variables.module.scss";
+
+.pagecontainer {
+    padding-top: 5%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    padding-bottom: 1.5rem; 
+    padding-left: 2.5rem;
+    padding-right: 2.5rem; 
+    background-color: $light; 
+}
+
+.headerText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-family: 'BadScript';
+    color: $primary;
+}
+
+.profilePicContainer {
+
+    .profilePic {
+        border: 3px solid $primary;
+    }
+}
+
+.textBlobsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.textBlob {
+    padding-top: 1rem;
+    width: 50%;
+    margin: 0 auto;
+
+    h3 {
+        font-family: 'Bungee';
+        color: $primary;
+    }
+
+    p {
+        font-family: 'Thasadith';
+        font-size: large;
+    }
+}
+
+.spentTimeOnContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .box {
+        width: 33%;     // 3 column rows
+    }
+}
+
+.socialMedia {
+    .image {
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .pagecontainer {
+        padding-top: 8%;
+    }
+
+    .textBlob {
+        width: 70%;
+    }
+
+}
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .pagecontainer {
+        padding-top: 10%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+
+    .textBlob {
+        width: 90%;
+    }
+
+    .spentTimeOnContainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    
+        .box {
+            width: 50%;     // 2 column rows
+        }
+    }
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    // Make the login box fit the smaller screen
+    .pagecontainer {
+        padding-top: 20%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+
+    .textBlob {
+        width: 95%;
+    }
+
+    .spentTimeOnContainer{
+        flex-direction: column;
+    
+        .box {
+            width: 100%;     // 1 column
+        }
+    }
+}

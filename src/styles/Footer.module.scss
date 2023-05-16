@@ -1,0 +1,56 @@
+@import "@/styles/Variables.module.scss";
+
+.footerContainer {
+    flex: 1 0 auto;
+    width: 100%;
+    height: auto;
+    position: fixed;                // Fix footer so when you scroll it doesn't move.
+    bottom: 0;                      // Fix footer to bottom of viewport
+    z-index: 2;
+
+}
+
+.footerList li{
+    // On desktops display the list Horizontally, in a line.
+    display: inline;
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .footerContainer {
+        
+    }
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .footerContainer {
+        
+    }
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    .footerContainer {
+        z-index: 0;         // hide footer behind everything
+        position: relative;     // Unfix footer, so it is just at the bottom of the page and not always bottom of the screen.
+    }
+
+    .footerList li{
+        // On mobile display the list vertially, in rows one after the other.
+        display: list-item;
+        list-style-type: none;
+        padding-left: 0px;
+    }
+    
+}

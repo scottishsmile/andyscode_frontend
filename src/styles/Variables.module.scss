@@ -1,0 +1,48 @@
+// Global SCSS Theme Color Variables
+// Import it into the SCSS file using       @import "@/styles/Variables.module.scss";
+
+// The Syncloaders color has to be changed manually on each page.
+// You may need to change the nvabar icons to $dark / $light depending on the $primary color choice. Navbar.module.scss look at .faStyles{}
+
+$primary: royalblue;          // bootstrap success green color
+
+$secondary:#e1b941;
+
+$tertiary: #41e169;
+
+
+$light: white;
+
+$gray: lightgray;
+
+$dark: #414a4c;
+
+
+$alert: crimson;
+
+$warn: orange;
+
+
+@font-face {
+    font-family: 'Bungee';
+    src: url('../../public/fonts/BungeeShade-regular.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thasadith';
+    src: url('../../public/fonts/Thasadith-bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BadScript';
+    src: url('../../public/fonts/BadScript-Regular.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}

@@ -1,0 +1,51 @@
+@import "@/styles/Variables.module.scss";
+
+.searchResultsContainer {
+    position: absolute; 
+    right: 0; 
+    top: 5rem; 
+    z-index: 10; 
+    background-color: $primary;
+    color: $dark; 
+    width: 100%; 
+    border-radius: 1rem; 
+    border-width: 4px; 
+    border-color: $gray; 
+}
+
+.resultsBox {
+    margin-bottom: 0.5rem;
+    background-color: $primary;
+    border-radius: 0.5rem; 
+    color: $light;
+}
+
+.textResults {
+    text-align: center;
+}
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    
+
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    
+}
+
+
+// Mobiles
+@media (max-width:500px){
+
+    .searchResultsContainer {
+        right: 0.5rem; 
+        width: 100%; 
+    }
+}

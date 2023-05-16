@@ -1,0 +1,90 @@
+@import "@/styles/Variables.module.scss";
+
+
+.navbar {
+   background-color: $primary; 
+}
+
+.navLinks {
+    color: $secondary;
+    font-weight: 500;
+}
+.navLinks:hover {
+    color: $tertiary;
+}
+
+.navLinkActive {
+    color: $dark;
+}
+
+.navDropDownLink{
+    color: $secondary;
+    font-weight: 500;
+}
+
+.navDropDownLink:hover {
+    color: $tertiary;
+}
+
+.navDropdownSubLinks {
+    color: $dark;
+}
+
+.loginRegLinks {
+    color: $secondary;
+}
+
+.faStyles {
+    color: $light;
+}
+
+
+
+// Smaller Desktop
+@media(min-width:951px) and (max-width:1250px){
+
+    .navbar {
+        margin-bottom: 3%;
+    }
+    .navLinks {
+        font-size: 12px;
+        padding: 10px 1px;
+    }
+
+    .navDropDownLink{
+        font-size: 12px;
+        padding: 0px 1px;
+    }
+
+    .navDropdownSubLinks {
+        font-size: 12px;
+    }
+
+    .faStyles {
+        display: none;                      // Hide the FA Icons on smaller desktops. This is before the NavMenu switches to "Hamburger Dropdown" mode. So saves some space.
+    }
+}
+
+
+// Tablets
+@media(min-width:501px) and (max-width:950px){
+
+    .navLinks {
+        font-size: 18px;
+    }
+
+    .navDropDownLink{
+        font-size: 18px;
+    }
+
+    .navDropdownSubLinks {
+        font-size: 18px;
+    }
+    
+}
+
+// Mobiles
+@media (max-width:500px){
+
+    
+}

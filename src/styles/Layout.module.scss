@@ -1,0 +1,13 @@
+@import "@/styles/Variables.module.scss";
+
+.navbar {
+    // Set the navbar as fixed doesn't move, even when you scroll. z-index 1 means it's always on top.
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+}
+
+.main {
+    background-color: $light;
+    color: $dark;
+}
