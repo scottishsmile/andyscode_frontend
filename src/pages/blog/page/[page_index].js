@@ -9,7 +9,7 @@ import Pagination from '@/components/blog/Pagination';
 import CategoryList from '@/components/blog/CategoryList';
 import { sortByDate } from '@/utils/SortByDate' ;
 import { BLOG_POSTS_PER_PAGE } from '@/constants/constants';
-import Search from '@/components/Blog/Search';
+import Search from '@/components/blog/Search';
 
 
 const BlogPage = ({ posts, numPages, currentPage, categories }) => {

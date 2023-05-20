@@ -8,7 +8,7 @@ import Post from '@/components/blog/Post';
 import GetPosts from '@/components/blog/GetPosts';
 import CategoryList from '@/components/blog/CategoryList';
 import { sortByDate } from '@/utils/SortByDate';
-import Search from '@/components/Blog/Search';
+import Search from '@/components/blog/Search';
 
 
 
