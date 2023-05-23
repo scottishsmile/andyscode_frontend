@@ -14,11 +14,11 @@ const SearchReq = async (req, res) => {
         // If the webhost doesn't allow access to the file system then we need to use caching/Husky to access the blog posts.
 
         try {
-        let posts
+            let posts
 
-        const files = fs.readdirSync(path.join('src/blogposts'))
+            const files = fs.readdirSync(path.join('src/blogposts'))
 
-        posts = files.map((filename) => {
+            posts = files.map((filename) => {
 
             // Needed for building the url in SearchResults
             const slug = filename.replace('.md', '')

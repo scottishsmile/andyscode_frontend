@@ -3,7 +3,6 @@ import Image from 'next/image'
 import styles from '@/styles/blog/Search.module.scss'
 import { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { HOMEPAGE_URL } from '@/constants/constants'
 import SearchResults from '@/components/blog/SearchResults';
 
 const Search = () => {
@@ -22,7 +21,8 @@ const Search = () => {
                 
             } else {
     
-                const res = await fetch(`${HOMEPAGE_URL}/api/blog/search?searchTerm=${searchTerm}`);
+                // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
+                const res = await fetch(`/api/blog/search?searchTerm=${searchTerm}`);
                 const results = await res.json()
 
 

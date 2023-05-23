@@ -3,7 +3,8 @@ import logger from '@/logger/logger';
 
 const RecaptchaV2Req = async (req, res) => {
 
-    if (req.method === 'POST') {
+    // Google API seems to use the HTTP OPTIONS method and not a POST
+    if (req.method === 'OPTIONS' || req.method === 'POST') {
 
         const {
             response,
@@ -65,7 +66,7 @@ const RecaptchaV2Req = async (req, res) => {
         // Fail
         // Error. Not a POST request. They tried GET or PUT etc.
 
-        logger.info(`api/recaptcha-v2-requests.js - Method: ${req.method} . Wrong Request Type. It should be a POST request!`);
+        logger.info(`api/recaptcha-v2-requests.js - Method: ${req.method} . Wrong Request Type. It should be an OPTIONS or POST request!`);
 
         res.setHeader('Allow', ['POST']);
         return res.status(405).json({ 'error': `Method ${req.method} not allowed`});
