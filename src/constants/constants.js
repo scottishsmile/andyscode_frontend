@@ -1,6 +1,6 @@
 
 // PUBLIC general React-Style constant variables.
-export const COMPANY_NAME = `MyWebsite.com`;
+export const COMPANY_NAME = process.env.COMPANY_NAME;
 export const ADMIN_EMAIL = `admin@mywebsite.com`;
 export const TERMS_PRIVACY_EMAIL = `privacy@mywebsite.com`;
 export const BLOG_POSTS_PER_PAGE = 6;
