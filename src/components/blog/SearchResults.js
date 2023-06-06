@@ -2,12 +2,25 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from '@/styles/blog/SearchResults.module.scss'
 import Post from '@/components/blog/Post'
-import SearchError from '@/components/blog/SearchError';
+import SearchResultsBox from '@/components/blog/SearchResultsBox';
 
 export default function SearchResults({ results }) {
 
     // Don't show the search results box if there's no results.
-    if(results === undefined || results.length === 0) return <></> 
+    if(results === undefined || results.length === 0) return <> </>
+    
+    if(results === "zero"){
+        return (
+            <>
+            <div className={styles.searchResultsContainer}>
+                <div className={styles.resultsBox}>
+                    <p className={styles.textResults}><b>0 Results</b></p>
+                    <SearchResultsBox title={"Nothing, Nada, Zip!"} text={"Like my tinder profile, no matches..."} error={"Try again!"}/>
+                </div>
+            </div>
+            </>
+            )
+    }
 
     // Display Error Msg if there is one
     if(results.error){
@@ -15,7 +28,7 @@ export default function SearchResults({ results }) {
         <>
         <div className={styles.searchResultsContainer}>
             <div className={styles.resultsBox}>
-                <SearchError error={results.error} />
+                <SearchResultsBox title={"Error"} text={"Oops! Something's went wrong with our servers..."} error={results.error} />
             </div>
         </div>
         </>

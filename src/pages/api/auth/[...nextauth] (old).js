@@ -71,165 +71,70 @@ const providers = [
 		// We will use our own login form but the variable names here are important. They MUST match your API's UserLoginDto.
 		credentials: {
 			UserName: { label: "Username", type: "text", placeholder: "jsmith" },
-            Password: { label: "Password", type: "password" },
-            MfaCode: { label: "MfaCode", type: "text" },
+			Password: { label: "Password", type: "password" }
 		},
 		async authorize(credentials, req) {
+			
+			// Make sure the formatting and order of these variables matches your API's UserLoginDto
+			// Uppcase characters must be the same, order must be the same.
+			const {UserName, Password} = credentials;
 
-            let data = "";
-            let res = "";
-        
-            if( credentials.MfaCode === "empty" || credentials.MfaCode === undefined){
-                // Normal Login, no MFA Code.
+			const body = JSON.stringify({
+				UserName,
+				Password
+			});
 
-                // Make sure the formatting and order of these variables matches your API's UserLoginDto
-                // Uppcase characters must be the same, order must be the same.
-                const {UserName, Password, MfaCode} = credentials;
+			// Login request to our API.
+			const res = await fetch(`${API_URL}/User/Login`, {
+				method: 'POST',
+				headers: {
+					'Accept': `application/json; ${API_VERSION_ACCEPT_HEADER}`,
+					'Content-Type': 'application/json; charset=utf-8',
+				},
+				body: body,
+			}).catch((error) => {
+                logger.info(`[...nextauth].js - CredentialsProvider - Error in API POST request `, error);
 
-                const body = JSON.stringify({
-                    UserName,
-                    Password,
-                    MfaCode
-                });
-
-                res = await fetch(`${API_URL}/User/Login`, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': `application/json; ${API_VERSION_ACCEPT_HEADER}`,
-                        'Content-Type': 'application/json; charset=utf-8',
-                    },
-                    body: body,
-                }).catch((error) => {
-                    logger.info(`[...nextauth].js - CredentialsProvider - Error in API POST request `, error);
-
-                    const fetchError = {
-                        success: false,
-                        message: "Sorry, something is wrong with our servers...",
-                    }
-
-                    return fetchError;
-                });
-
-                // Do not use res.ok here as it also matches the 202!
-                if(res.status === 200){
-
-                    // Success 200 OK
-                    data = await res.json();
-
-                } else if (res.status === 202){
-
-                    // Success 202 Accepted. 
-                    // MFA Login was enabled for this account.
-                    data = await res.json();
-                
-                } else if (res.status === 400 || res.status === 401 || res.status === 500){
-
-                    // If we get a 400 BadRequest or 401 Unauthorised or 500 ServerError response we still want to map the error message.
-                    logger.info(`[...nextauth].js - CredentialsProvider - User Login Fail - API Call status: ${res.status} UserName: ${UserName}`);
-
-                    data = await res.json();
-
+                const fetchError = {
+                    success: false,
+                    message: "Sorry, something is wrong with our servers...",
                 }
-                else {
 
-                    // Incase there's an exception in the fetch
-                    data = res;     // The fetchError is not json.
-                }
-            } else {
-                
-                // Multi-factor Auth Login
-                // MFA Code Supplied.
+                return fetchError;
+              });
 
-                // Make sure the formatting and order of these variables matches your API's UserLoginDto
-                // Uppcase characters must be the same, order must be the same.
-                const {MfaToken, MfaCode, UserName} = credentials;
+              let data = "";
+              if(res.ok){
 
-                const body = JSON.stringify({
-                    MfaToken,
-                    MfaCode,
-                    UserName
-                });
+                // Success 200 OK
+                data = await res.json();
 
-                res = await fetch(`${API_URL}/User/MfaLogin`, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': `application/json; ${API_VERSION_ACCEPT_HEADER}`,
-                        'Content-Type': 'application/json; charset=utf-8',
-                    },
-                    body: body,
-                }).catch((error) => {
-                    logger.info(`[...nextauth].js - CredentialsProvider - Error in MFA Login API POST request `, error);
+              } else if (res.status === 400 || res.status === 401 || res.status === 500){
 
-                    const fetchError = {
-                        success: false,
-                        message: "Sorry, something is wrong with our servers...",
-                    }
+                // If we get a 400 BadRequest or 401 Unauthorised or 500 ServerError response we still want to map the error message.
+                logger.info(`[...nextauth].js - CredentialsProvider - User Login Fail - API Call status: ${res.status} UserName: ${UserName}`);
 
-                    return fetchError;
-                });
+                data = await res.json();
 
-                if(res.ok){
-
-                    // Success 200 OK
-                    data = await res.json();
-
-                } else if (res.status === 401){
-                    // MFA Code didn't match
-                    // Unauthorized 401 is only returned by the MFA login if the code is not correct.
-                    // We don't want to return a fail and send the user back to login, as they may have mis-typed.
-                    // We do want to return the message and success result though, so just modify the existing user object.
-                    data = await res.json();
-
-                    // Pass back the MfaToken and UserName to the webpage so it can reload.
-                    const user = {
-                        success: data.success,
-                        message: data.message,
-                        id: null,
-                        email: null,
-                        username: UserName,
-                        accessToken: null,
-                        accessTokenExpiry: null,
-                        refreshToken: null,
-                        refreshTokenExpiry: null,
-                        roles: null,
-                        MFA_Enabled: true,
-                        mfaToken: MfaToken,
-                        mfaTokenExpiry: null,
-                        error: "none"
-                    }
-
-                    return user;
-
-                }else if (res.status === 400  || res.status === 500){
-
-                    // If we get a 400 BadRequest or 401 Unauthorised or 500 ServerError response we still want to map the error message.
-                    logger.info(`[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: ${res.status} UserName: `, UserName);
-
-                    data = await res.json();
-
-                }
-                else {
-                    // Incase there's an exception in the fetch
-                    data = res;     // The fetchError is not json.
-                }
-            }
+              }
+              else {
+                // Incase there's an exception in the fetch
+                data = res;     // The fetchError is not json.
+              }
 
 			const user = {
 				success: data.success,
                 message: data.message,
                 id: data.data?.id,
-				email: data.data?.email,
+				email: data.data?.email,						// Error response is a null data object. So use data?
                 username: data.data?.username,
                 accessToken: data.data?.accessToken,
                 accessTokenExpiry: data.data?.accessTokenExpiry,
                 refreshToken: data.data?.refreshToken,
                 refreshTokenExpiry: data.data?.refreshTokenExpiry,
                 roles: data.data?.roles,
-                MFA_Enabled: data.data?.mfA_Enabled,
-                mfaToken: data.data?.mfaToken,
-                mfaTokenExpiry: data.data?.mfaTokenExpiry,
                 error: "none"
-            }
+			}
 
 
 			// Our API's response contains
@@ -264,16 +169,11 @@ const providers = [
 			
 			// Pass the user data object to the app.
 			// Check for 200 OK and the user exists. 
-            // We have to return the user object wither 200OK or not as it contains the error message.
-            // Do not use res.ok here as it also matches the 202!
-			if(res.status === 200 && user){
+			// We have to return th euse robject wither 200OK ro not as it contains the error message.
+			if(res.ok && user){
 				// Success
 				// Any object returned will be saved in `user` property of the JWT
-                return user;
-            } else if(res.status === 202 || user.MFA_Enabled){
-                // MFA is enabled for this account
-                return user;
-
+				return user;
 			} else {
 				// Fail
 				// If you return null or false then the credentials will be rejected
@@ -291,21 +191,10 @@ const providers = [
 ]
 
 const callbacks = {
-
     async signIn({ user }) {
-
         if (user.success){
             return true;
         } else {
-
-            if(user.MFA_Enabled){
-
-                // Pass the username and token to the MFA code page in the url.
-                let mfaUrl =`/members/mfa?userName=${user.username}&mfaToken=${user.mfaToken}`;
-                return mfaUrl;
-            }
-
-
             //return false;
             // Use query string to pass the error to the unauthorized page...
             logger.info('[...nextauth].js - signIn Failed - user is - ', user);
@@ -323,12 +212,9 @@ const callbacks = {
             token.accessTokenExpiry = user.accessTokenExpiry;
             token.refreshToken = user.refreshToken;
             token.refreshTokenExpiry = user.refreshTokenExpiry;
-            token.mfaToken = user.mfaToken;
-            token.mfaTokenExpiry = user.mfaTokenExpiry;
             token.username = user.username;
             token.user = user;
             token.roles = user.roles;
-            token.MFA_Enabled = user.MFA_Enabled;
             token.signMeOut = false;
         }
 
@@ -366,10 +252,7 @@ const callbacks = {
         session.accessTokenExpiry = token.accessTokenExpiry;
         session.refreshToken = token.refreshToken;
         session.refreshTokenExpiry = token.refreshTokenExpiry;
-        session.mfaToken = token.mfaToken;
-        session.mfaTokenExpiry = token.mfaTokenExpiry;
         session.error = token.error;
-        session.MFA_Enabled = token.MFA_Enabled;
         session.signMeOut = token.signMeOut;
 
         return session;

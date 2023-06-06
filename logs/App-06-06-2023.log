@@ -1,0 +1,13 @@
+{"level":"info","message":"[...nextauth].js - refreshAccessToken - Error in API tokenResponse. Status: 400","service":"my-app","timestamp":"2023-06-06 07:50:41"}
+{"level":"info","message":"[...nextauth].js - jwt callback - Refresh token has expired, signing out","service":"my-app","timestamp":"2023-06-06 07:50:41"}
+{"level":"error","message":"api/toggle-mfa-requests/[token].js - Is API running and accessible? - 500 Error SyntaxError: Unexpected end of JSON input","service":"my-app","timestamp":"2023-06-06 07:51:02"}
+{"level":"error","message":"api/toggle-mfa-requests/[token].js - Is API running and accessible? - 500 Error SyntaxError: Unexpected end of JSON input","service":"my-app","timestamp":"2023-06-06 07:51:45"}
+{"0":"d","1":"a","2":"v","3":"e","4":"t","5":"e","6":"s","7":"t","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 401 UserName: ","service":"my-app","timestamp":"2023-06-06 08:41:33"}
+{"error":"none","level":"info","message":"MFA code is not correct.","service":"my-app","success":false,"timestamp":"2023-06-06 08:41:33"}
+{"error":"none","level":"info","message":"MFA code is not correct.","service":"my-app","success":false,"timestamp":"2023-06-06 08:41:33"}
+{"level":"info","message":"[...nextauth].js - refreshAccessToken - Error in API tokenResponse. Status: 400","service":"my-app","timestamp":"2023-06-06 11:26:18"}
+{"level":"info","message":"[...nextauth].js - jwt callback - Refresh token has expired, signing out","service":"my-app","timestamp":"2023-06-06 11:26:18"}
+{"level":"info","message":"[...nextauth].js - refreshAccessToken - Error in API tokenResponse. Status: 400","service":"my-app","timestamp":"2023-06-06 18:10:07"}
+{"level":"info","message":"[...nextauth].js - jwt callback - Refresh token has expired, signing out","service":"my-app","timestamp":"2023-06-06 18:10:07"}
+{"level":"info","message":"[...nextauth].js - refreshAccessToken - Error in API tokenResponse. Status: 400","service":"my-app","timestamp":"2023-06-06 19:16:36"}
+{"level":"info","message":"[...nextauth].js - jwt callback - Refresh token has expired, signing out","service":"my-app","timestamp":"2023-06-06 19:16:36"}

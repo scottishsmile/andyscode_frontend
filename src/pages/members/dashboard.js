@@ -25,6 +25,13 @@ const Dashboard = () => {
                 description='Members Area Dashboard'
             >
                 <div className={styles.pagecontainer}>
+                    {session?.MFA_Enabled === false ?
+                        <div className={styles.topAlertBanner}>
+                            <p>You should enable <b>Multi-Factor Authentication</b> to secure the account. Enable it here: <Link href="/members/profile">Profile</Link></p>
+                        </div>
+                        :
+                        <p></p>
+                    }                   
                     <div className={styles.headerText}>
                         <h2>Members Area</h2>
                         <p>Only registered and logged in users should see this page</p>

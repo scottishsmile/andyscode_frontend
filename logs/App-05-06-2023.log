@@ -1,0 +1,37 @@
+{"level":"info","message":"[...nextauth].js - CredentialsProvider - User Login Fail - API Call status: 400 UserName: admin","service":"my-app","timestamp":"2023-06-05 12:33:28"}
+{"error":"none","level":"info","message":"User Doesn't Exist or Password is wrong.","service":"my-app","success":false,"timestamp":"2023-06-05 12:33:28"}
+{"error":"none","level":"info","message":"User Doesn't Exist or Password is wrong.","service":"my-app","success":false,"timestamp":"2023-06-05 12:33:28"}
+{"level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: [object Object]","service":"my-app","timestamp":"2023-06-05 13:25:07"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:25:07"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:25:07"}
+{"0":"[","1":"o","10":"j","11":"e","12":"c","13":"t","14":"]","2":"b","3":"j","4":"e","5":"c","6":"t","7":" ","8":"O","9":"b","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 13:32:58"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:32:58"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:32:58"}
+{"0":"[","1":"o","10":"j","11":"e","12":"c","13":"t","14":"]","2":"b","3":"j","4":"e","5":"c","6":"t","7":" ","8":"O","9":"b","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 13:38:55"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:38:55"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:38:55"}
+{"0":"a","1":"d","2":"m","3":"i","4":"n","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 13:47:45"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:47:45"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:47:45"}
+{"0":"a","1":"d","2":"m","3":"i","4":"n","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 13:58:25"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:58:25"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 13:58:25"}
+{"0":"a","1":"d","2":"m","3":"i","4":"n","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 14:01:59"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 14:01:59"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 14:01:59"}
+{"0":"a","1":"d","2":"m","3":"i","4":"n","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 15:50:53"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 15:50:53"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 15:50:53"}
+{"0":"a","1":"d","2":"m","3":"i","4":"n","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 15:54:47"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 15:54:47"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 15:54:47"}
+{"0":"u","1":"n","2":"d","3":"e","4":"f","5":"i","6":"n","7":"e","8":"d","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 15:59:51"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 15:59:51"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 15:59:51"}
+{"level":"info","message":"[...nextauth].js - CredentialsProvider - User Login Fail - API Call status: 400 UserName: undefined","service":"my-app","timestamp":"2023-06-05 16:12:38"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 16:12:38"}
+{"error":"none","level":"info","service":"my-app","timestamp":"2023-06-05 16:12:38"}
+{"0":"u","1":"n","2":"d","3":"e","4":"f","5":"i","6":"n","7":"e","8":"d","level":"info","message":"[...nextauth].js - CredentialsProvider - MFA Login Fail - API Call status: 400 UserName: ","service":"my-app","timestamp":"2023-06-05 16:14:20"}
+{"error":"none","level":"info","message":"User Not Found.","service":"my-app","success":false,"timestamp":"2023-06-05 16:14:20"}
+{"error":"none","level":"info","message":"User Not Found.","service":"my-app","success":false,"timestamp":"2023-06-05 16:14:20"}
+{"level":"error","message":"api/toggle-mfa-requests/[token].js - Is API running and accessible? - 500 Error TypeError: fetch failed","service":"my-app","timestamp":"2023-06-05 19:51:25"}

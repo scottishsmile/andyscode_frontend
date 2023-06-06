@@ -36,7 +36,7 @@ const RefreshTokenHandler = ({ setRefreshInterval }) => {
             let timeRemainingMinutes = Math.round((((timeRemainingMiliSecs - ACCESS_TOKEN_REFRESH_TIME_MILISECS) % 86400000) % 3600000) / 60000)
 
             // TESTING
-            console.log(`RefreshTokenHander.js - time remaining in minutes is ${timeRemainingMinutes} `);
+            //console.log(`RefreshTokenHander.js - time remaining in minutes is ${timeRemainingMinutes} `);
 
             // If time remaning is greater than 0 ? True - set the value to the remaining time, else if it is False then set the value to 0.
             setRefreshInterval(timeRemainingMinutes > 0 ? timeRemainingMinutes : 0);

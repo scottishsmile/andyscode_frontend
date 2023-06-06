@@ -20,6 +20,7 @@ const Login = () => {
     const isAuthenticated = useAuth(true, session);           // true means we should redirect to login page if the user is not authenticated
 
 
+
     const loginFormSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
         event.preventDefault()
@@ -31,7 +32,6 @@ const Login = () => {
         const nextAuthSettings = {
           UserName: event.target.username.value,
           Password: event.target.password.value,
-          MfaCode: "empty",
           redirect: true,
           callbackUrl: '/members/dashboard'                             // Send user to dashboard after login
         }

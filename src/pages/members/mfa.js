@@ -7,20 +7,21 @@ import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { signIn } from 'next-auth/react';
-import { useSession } from 'next-auth/react';
-import useAuth from '@/auth/useAuth';
+import useStore from '@/store/store';
 
 
-const Login = () => {
+const MfaPage = () => {
 
     const [loading, setLoading] = useState(false);          // Loading spinner on when true.
     const router = useRouter();
-    let errorMsg = router.query;                            // Error message from [...nextauth].js in url query params
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session);           // true means we should redirect to login page if the user is not authenticated
+    let urlParams = router.query;                            // Error message from [...nextauth].js in url query params
+
+    // Global Store
+    //const userName = useStore((state) => state.UserName);
+    //const clearUserName = useStore((state) => state.clearUserName);
 
 
-    const loginFormSubmit = async (event) => {
+    const mfaFormSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
         event.preventDefault()
 
@@ -29,11 +30,11 @@ const Login = () => {
 
         // Get data from the form.
         const nextAuthSettings = {
-          UserName: event.target.username.value,
-          Password: event.target.password.value,
-          MfaCode: "empty",
-          redirect: true,
-          callbackUrl: '/members/dashboard'                             // Send user to dashboard after login
+            MfaToken: urlParams.mfaToken,
+            MfaCode: event.target.code.value,
+            UserName: urlParams.userName,
+            redirect: true,
+            callbackUrl: '/members/dashboard'                             // Send user to dashboard after login
         }
     
         // Send the form data to Next Auth
@@ -47,15 +48,9 @@ const Login = () => {
 
     return (
         <>
-        {isAuthenticated ?
-            <div>
-                <p>You are already logged in.</p>
-                <Link href="/members/dashboard">Members dashboard</Link>
-            </div>
-        :
         <Layout
-            title='Login'
-            description='User Login Page'
+            title='MFA Code'
+            description='Multi-Factor Authentication Page'
             keywords=''>
                 <div className={styles.loginpage}>
                     <div className="container">
@@ -73,20 +68,14 @@ const Login = () => {
                                     {formik => (
                                         <div>
 
-                                            <h3 className={styles.loginBoxHeader}>Login</h3>
-                                            <Form onSubmit={loginFormSubmit} id="login-form">
+                                            <h3 className={styles.loginBoxHeader}>Login Code</h3>
+                                            <Form onSubmit={mfaFormSubmit} id="mfa-form">
                                                 <div className="mb-4">
-                                                    <label htmlFor="username" className="form-label"><b className={styles.loginBoxText}>Email / Username</b></label>
-                                                    <Field type="text" id="username" name="username" className="form-control" placeholder="" autoComplete="on" aria-describedby="usernameHelp" required/>
-                                                    <div id="usernameHelp" className="form-test"><span className={styles.loginBoxText}>Enter your email or username</span></div>
-                                                    <ErrorMessage name="username" className="text-danger" component="div" />
+                                                    <label htmlFor="code" className="form-label"><b className={styles.loginBoxText}>Login Code</b></label>
+                                                    <Field type="text" id="code" name="code" className="form-control" placeholder="" autoComplete="off" aria-describedby="codeHelp" required/>
+                                                    <div id="codeHelp" className="form-test"><span className={styles.loginBoxText}>Enter the login code emailed to you</span></div>
+                                                    <ErrorMessage name="code" className="text-danger" component="div" />
                                                 </div>
-                                                <div className="mb-4">
-                                                    <label htmlFor="password" className="form-label"><b className={styles.loginBoxText}>Password</b></label>
-                                                    <Field type="password" id="password"  name="password" className="form-control" placeholder="" autoComplete="off" aria-describedby="passwordHelp" required/>
-                                                    <div id="passwordHelp" className="form-test"><span className={styles.loginBoxText}>Enter your password</span></div>
-                                                    <ErrorMessage name="password" className="text-danger" component="div" />
-                                            </div>
                                             {/* Loading Spinner */}
                                             {
                                                 loading ? (
@@ -109,21 +98,19 @@ const Login = () => {
                                     )}
                                 </Formik>
                                 <div>
-                                    <p className={styles.loginBoxTextBottom}>Forgot Password? <Link href="/members/forgotpass" className={styles.loginBoxLink}>Reset</Link></p>
-                                    <p className={styles.loginBoxTextBottom}>New User? <Link href="/members/register" className={styles.loginBoxLink}>Sign Up</Link></p>
+                                    <p className={styles.loginBoxTextBottom}>Go back to login page? <Link href="/members/login" className={styles.loginBoxLink}>Back</Link></p>
                                 </div>
                                 <div>
-                                    <p className="text-danger text-center">{errorMsg.error}</p>
+                                    <p className="text-danger text-center">{urlParams.error}</p>
                                 </div>
                         </div>
                     </div>
                 </div>
             </div>
         </Layout>
-        }
         </>
     )
 }
     
-export default Login;
+export default MfaPage;
 

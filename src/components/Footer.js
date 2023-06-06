@@ -12,7 +12,7 @@ const Footer = () => {
                 <div className="container text-center">
                 <small>
                     <ul className={styles.footerList}>
-                        <li>Copyright &copy; { COMPANY_NAME }</li>
+                        <li>Copyright &copy; Andys-Code.com</li>
                         <li><Link href="/termsconditionsfullpage" >Terms and Conditions</Link></li>
                         <li><Link href="/privacypolicyfullpage" >Privacy Policy</Link></li>
                     </ul>

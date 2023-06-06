@@ -2,7 +2,7 @@ export { default } from "next-auth/middleware";
 
 // https://next-auth.js.org/configuration/nextjs#middleware
 // The routes listed in matcher: are protected and you need to be authenticated to use them.
-// Next Auth will redirect unauthernticated users to sign-in page by default.
+// Next Auth will redirect unauthenticated users to sign-in page by default.
 
 export const config = { matcher: [
     "/members/contact", 

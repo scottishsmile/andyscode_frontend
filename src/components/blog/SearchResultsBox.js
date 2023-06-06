@@ -1,18 +1,18 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import styles from '@/styles/blog/SearchError.module.scss'
+import styles from '@/styles/blog/SearchResultsBox.module.scss'
 
-const SearchError = ({ error }) => {
+const SearchResultsBox = ({ title, text, error }) => {
 
 
     return (
         <>
         <div className={styles.postContainer}>
             <div className={styles.text}>
-                <span className={styles.errorTitle}>Error</span>
+                <span className={styles.errorTitle}>{ title }</span>
             </div>
             <div className={styles.content}>
-                <p className={styles.errorText}>Oops! Something has went wrong with our search bar... Use the category links above instead!</p>
+                <p className={styles.errorText}>{ text }</p>
                 <p className={styles.errorText}>{ error }</p>
             </div>
         </div>
@@ -20,4 +20,4 @@ const SearchError = ({ error }) => {
     )
 }
 
-export default SearchError;
+export default SearchResultsBox;

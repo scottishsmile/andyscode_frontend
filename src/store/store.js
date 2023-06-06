@@ -8,6 +8,24 @@ import produce from "immer";
 
 let store = (set) => ({
 
+
+    /*
+    UserName: "empty",
+    addUserName: (username) => set((state) => ({UserName: username})),
+    clearUserName: () => set((state) => ({UserName: "empty"})),
+
+    // Global Store
+    const addUserName = useStore((state)=> state.addUserName);
+
+    // Set Global Store Values
+    addUserName(event.target.username.value);
+
+    */
+
+
+    
+
+
     // Example creating a person array in state
     // Then you can add a person to the array by calling the global state from a page or component
     // const newPersonArray = useStpre(state) => state.addPerson('James Doe'));
