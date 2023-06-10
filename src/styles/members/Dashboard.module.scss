@@ -4,6 +4,10 @@
     padding-top: 5%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
     background-color: $light;
     color: $dark;
+    position: relative;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
 }
 
 .topAlertBanner {
@@ -15,7 +19,7 @@
     justify-content: center;
 
     p {
-        width: 50vw;
+        width: 70vw;
         text-align: center;
         background-color: $secondary;
     }
@@ -61,6 +65,13 @@
         padding-top: 8%;
     }
 
+    .topAlertBanner {
+    
+        p {
+            width: 80vw;
+        }
+    }
+
 }
 
 
@@ -69,6 +80,13 @@
 
     .pagecontainer {
         padding-top: 10%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    }
+
+    .topAlertBanner {
+    
+        p {
+            width: 95vw;
+        }
     }
 }
 
@@ -79,5 +97,14 @@
     // Make the login box fit the smaller screen
     .pagecontainer {
         padding-top: 20%;                        // The navbar will take up the top part of the screen and overlay the start of the div without this.
+        width: 100%;                    // Has to be % for mobile screens to vw or vh
+        height: 100%;
+    }
+
+    .topAlertBanner {
+    
+        p {
+            width: 95vw;
+        }
     }
 }

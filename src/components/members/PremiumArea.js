@@ -20,7 +20,7 @@ const PremiumArea = (props) => {
                         <div className={styles.textBlob}>
                             <h3>VIP</h3>
                             <p>Special premium user content on this page!</p>
-                            <p>A user can buy premium access and get the "AppPremium" role assigned to them which will allow access here.</p>
+                            <p>Once a user has bought premium access they get the "AppPremium" role assigned to them which will allow access to this page.</p>
                             <br />
                         </div>
                     </div>

@@ -3,18 +3,11 @@ import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/Dashboard.module.scss'
 import useAuth from '@/auth/useAuth'
 import { useSession } from 'next-auth/react';
-import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
-import { useState } from 'react';
 
 const Dashboard = () => {
 
     const { data: session} = useSession();
     const isAuthenticated = useAuth(true, session);       // true means we should redirect to login page if the user is not authenticated
-    const [loading, setLoading] = useState(true);        // Loading spinner on when true.
-    
-    setTimeout(() => {
-        setLoading(false);
-    }, 3000)
 
 
     return (
@@ -49,25 +42,10 @@ const Dashboard = () => {
             </MembersLayout>
         : 
         <div>
-            {/* Loading Spinner */}
-            {
-                loading ? (
-                    <div className='d-flex justify-content-center align-items-center mt-5'>
-                        <SyncLoader
-                            color='green'
-                            loading={loading}
-                            size={20}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
-                    </div>
-                ) : (
-                    <div className="text-center">
-                        <p>Error: User Signed Out! Login to access this page.</p>
-                        <p><Link href="/members/login">Login</Link></p>
-                    </div>
-                )
-            }
+            <div className="text-center">
+                <p>Error: User Signed Out! Login to access this page.</p>
+                <p><Link href="/members/login">Login</Link></p>
+            </div>
         </div>
         }
         </>

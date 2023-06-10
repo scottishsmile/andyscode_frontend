@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import Layout from '@/shared/Layout';
-import styles from '@/styles/members/Premium.module.scss'
-import { useEffect } from 'react';
+import styles from '@/styles/members/MfaChangeSuccess.module.scss'
 import { signOut, useSession } from 'next-auth/react';
 import useAuth from '@/auth/useAuth'
+import {useEffect, useState} from 'react';
+import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 
-const PremiumUpgradeSuccess = () => {
+
+const MfaChangeSuccess = () => {
 
     const { data: session} = useSession();
     const isAuthenticated = useAuth(true, session); 
@@ -16,19 +18,22 @@ const PremiumUpgradeSuccess = () => {
         setTimeout(() => { signOut() }, 3000);
     }, []);
 
+
+
+
     return (
         <>
         {isAuthenticated ?
-        <Layout
-                title='Premium'
-                description='Premium Members'
+            <Layout
+                title='Update Success'
+                description='Edit your user profile'
             >
-            <div className={styles.pagecontainer}>
-            <h2 className="text-success">Welcome to Premium!</h2>
-                <p><b>Logging you out in 3 Secs...</b></p>
-                <p>Please log in again to refresh your membership level.</p>
-            </div>
-        </Layout>
+                <div className={styles.pagecontainer}>
+                    <h2 className="text-success">MFA Change Success!</h2>
+                    <p><b>Logging you out in 3 Secs...</b></p>
+                    <p>Please login again!</p>
+                </div>
+            </Layout>
         : 
         <div>
             <div>
@@ -41,4 +46,4 @@ const PremiumUpgradeSuccess = () => {
     )
 }
     
-export default PremiumUpgradeSuccess;
+export default MfaChangeSuccess;

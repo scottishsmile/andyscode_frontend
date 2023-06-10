@@ -2,9 +2,12 @@
 
 .pagecontainer {
     padding-top: 6rem;                     // The navbar will take up the top part of the screen and overlay the start of the div without this.
+    padding-bottom: 6rem;
+    position: relative;
+    z-index: 1;
     background-color: silver;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 .headerText {

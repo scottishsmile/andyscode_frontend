@@ -9,8 +9,8 @@
     filter: brightness(100%);
     background-image: url('/login-background.jpg');
     background-size: cover;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 
 // Bootstrap "row" was adding a horizontal scrolbar, so use this container instead.
@@ -68,5 +68,7 @@
         padding-bottom: 8rem;
         padding-left: 2%;
         padding-right: 2%;
+        width: 100%;                    // Has to be % for mobile screens to vw or vh
+        height: 100%;
     }
 }

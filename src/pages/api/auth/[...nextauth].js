@@ -272,6 +272,10 @@ const providers = [
                 return user;
             } else if(res.status === 202 || user.MFA_Enabled){
                 // MFA is enabled for this account
+
+                // Clear first user message
+                user.message = "";
+
                 return user;
 
 			} else {
@@ -301,7 +305,7 @@ const callbacks = {
             if(user.MFA_Enabled){
 
                 // Pass the username and token to the MFA code page in the url.
-                let mfaUrl =`/members/mfa?userName=${user.username}&mfaToken=${user.mfaToken}`;
+                let mfaUrl =`/members/mfa?userName=${user.username}&mfaToken=${user.mfaToken}&error=${user.message}`;
                 return mfaUrl;
             }
 

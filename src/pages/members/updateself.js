@@ -99,7 +99,7 @@ const UpdateSelf = () => {
         setLoading(false);
 
         // Route to success page.
-        // User will be auto logged off in 3 secs on this page. It's the onyl way to refresh the next auth session.
+        // User will be auto logged off in 3 secs on this page. It's the only way to refresh the next auth session.
         if (result.success){
             router.push('/members/updateself-success');
         }

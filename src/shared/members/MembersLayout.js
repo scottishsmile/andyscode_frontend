@@ -19,7 +19,6 @@ const MembersLayout = ({ title, content, children }) => {
     useEffect(() => {
         // Check if Next-Auth has set the sign out flag to true.
         if (session?.signMeOut === true) {
-            console.log('MembersLayout.js Signing Out!')
             signOut();
         }
       }, [session?.signMeOut, router]);
