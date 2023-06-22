@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import useAuth from '@/auth/useAuth'
 import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
-import {HOMEPAGE_URL} from '@/constants/constants'
 import MembershipLevel from '@/components/members/MembershipLevel'
 
 const Profile = () => {
@@ -42,8 +41,9 @@ const Profile = () => {
         }
     
         // Send the form data to our API
+        // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
         let token = session?.user.accessToken;
-        const response = await fetch(`${HOMEPAGE_URL}/api/toggle-mfa-requests/${token}`, options)
+        const response = await fetch(`/api/toggle-mfa-requests/${token}`, options)
     
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.

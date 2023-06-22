@@ -10,7 +10,7 @@ import {SyncLoader} from 'react-spinners';                      // npm install -
 import TermsAndConditions from '@/components/termsAndConditions.js';
 import GoogleReCaptchaV2 from '@/components/GoogleReCaptchaV2';
 import ReCAPTCHA from 'react-google-recaptcha';
-import {HOMEPAGE_URL, GOOGLE_RECAPTCHA_SITE_KEY_V2} from '@/constants/constants';
+import {GOOGLE_RECAPTCHA_SITE_KEY_V2} from '@/constants/constants';
 
 
 const Register = () => {
@@ -52,7 +52,8 @@ const Register = () => {
             body: JSONdata,
         }
 
-        const response = await fetch(`${HOMEPAGE_URL}/api/unique-username-requests`, options);
+        // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
+        const response = await fetch(`/api/unique-username-requests`, options);
 
         const result = await response.json();
 
@@ -150,7 +151,8 @@ const Register = () => {
         }
     
         // Send the form data to our API
-        const response = await fetch(`${HOMEPAGE_URL}/api/register-requests`, options)
+        // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
+        const response = await fetch(`/api/register-requests`, options)
     
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.

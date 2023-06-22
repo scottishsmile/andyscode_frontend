@@ -7,7 +7,6 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import {HOMEPAGE_URL} from '@/constants/constants';
 
 
 const ForgotPass= () => {
@@ -49,7 +48,8 @@ const ForgotPass= () => {
           }
 
         // Send the request to the API
-        const response = await fetch(`${HOMEPAGE_URL}/api/forgotpass-requests`, options);
+        // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
+        const response = await fetch(`/api/forgotpass-requests`, options);
         const result = await response.json()
 
 

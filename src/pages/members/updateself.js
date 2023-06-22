@@ -8,7 +8,6 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
-import {HOMEPAGE_URL} from '@/constants/constants';
 
 
 const UpdateSelf = () => {
@@ -66,7 +65,7 @@ const UpdateSelf = () => {
         // Use NextJS Dynamic Routes to pass the token as a query string to the api folder requests module.
         // https://nextjs.org/docs/api-routes/dynamic-api-routes
         let token = session?.user.accessToken;
-        const response = await fetch(`${HOMEPAGE_URL}/api/updateself-requests/${token}`, options)
+        const response = await fetch(`/api/updateself-requests/${token}`, options)
     
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
@@ -78,7 +77,7 @@ const UpdateSelf = () => {
         // Do a Get User request
         let token2 = session?.user.accessToken;         // Get token again incase it was just refreshed.
         let userId = session?.user.id;
-        const getUser = await fetch(`${HOMEPAGE_URL}/api/getuserbyid-requests?token=${token2}&id=${userId}`)
+        const getUser = await fetch(`/api/getuserbyid-requests?token=${token2}&id=${userId}`)
 
         const getData = await getUser.json();
 

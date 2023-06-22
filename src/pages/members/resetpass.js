@@ -9,7 +9,6 @@ import {SyncLoader} from 'react-spinners';                      // npm install -
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { useSession } from 'next-auth/react';
 import useAuth from '@/auth/useAuth'
-import {HOMEPAGE_URL} from '@/constants/constants';
 
 
 const ResetPass = () => {
@@ -66,7 +65,7 @@ const ResetPass = () => {
         // Use NextJS Dynamic Routes to pass the token as a query string to the api folder requests module.
         // https://nextjs.org/docs/api-routes/dynamic-api-routes
         let token = session?.user.accessToken;
-        const response = await fetch(`${HOMEPAGE_URL}/api/resetpass-requests/${token}`, options)
+        const response = await fetch(`/api/resetpass-requests/${token}`, options)
         .then((res) => {
             if(res.ok){
                 return res;

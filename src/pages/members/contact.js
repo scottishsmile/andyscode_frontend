@@ -10,7 +10,7 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import * as Yup from 'yup';
 import ReCAPTCHA from 'react-google-recaptcha';
-import {HOMEPAGE_URL, GOOGLE_RECAPTCHA_SITE_KEY_V2} from '@/constants/constants';
+import {GOOGLE_RECAPTCHA_SITE_KEY_V2} from '@/constants/constants';
 
 
 const Contact = () => {
@@ -86,7 +86,7 @@ const Contact = () => {
         // Use NextJS Dynamic Routes to pass the token as a query string to the api folder requests module.
         // https://nextjs.org/docs/api-routes/dynamic-api-routes
         let token = session?.user.accessToken;
-        const response = await fetch(`${HOMEPAGE_URL}/api/contact-requests/${token}`, options);
+        const response = await fetch(`/api/contact-requests/${token}`, options);
     
         const result = await response.json();
 

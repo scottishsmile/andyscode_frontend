@@ -1,4 +1,4 @@
-import {HOMEPAGE_URL} from '@/constants/constants';
+
 
 const GoogleReCaptchaV2 = async (token) => {
 
@@ -20,7 +20,8 @@ const GoogleReCaptchaV2 = async (token) => {
     }
 
     // Send data to Google's API
-    const response = await fetch(`${HOMEPAGE_URL}/api/recaptcha-v2-requests`, options)
+    // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
+    const response = await fetch(`/api/recaptcha-v2-requests`, options)
 
 
     const result = await response.json()
