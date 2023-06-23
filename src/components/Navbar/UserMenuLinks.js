@@ -15,20 +15,6 @@ export const userMenuLinks = [
           divider: true                     // A dividing line between the links in the dropdown.
         },
         {
-          title: 'Support',
-          path: '/members/support',
-        },
-        {
-          divider: true                     // A dividing line between the links in the dropdown.
-        },
-        {
-          title: 'Notifications',
-          path: '/members/notifications',
-        },
-        {
-        divider: true                     // A dividing line between the links in the dropdown.
-        },
-        {
           title: 'Contact Us',
           path: '/members/contact',
         }
