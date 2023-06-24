@@ -9,7 +9,6 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import useAuth from '@/auth/useAuth';
-import logger from '@/logger/logger';
 
 
 const Login = () => {
@@ -41,7 +40,7 @@ const Login = () => {
         const result = await signIn("credentials", nextAuthSettings);
 
         // Logging
-        logger.info(`login.js - Login result was `, result);
+        console.log(`login.js - Login result was `, result);
 
         // Toggle loading spinner OFF
         setLoading(false);
