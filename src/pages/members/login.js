@@ -9,6 +9,7 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import useAuth from '@/auth/useAuth';
+import logger from '@/logger/logger';
 
 
 const Login = () => {
@@ -39,6 +40,9 @@ const Login = () => {
         // Send the form data to Next Auth
         const result = await signIn("credentials", nextAuthSettings);
 
+        // Logging
+        logger.info(`login.js - Login result was `, result);
+
         // Toggle loading spinner OFF
         setLoading(false);
 
@@ -62,7 +66,7 @@ const Login = () => {
                         <div className="row align-items-center justify-content-center">
                             <div className="col-sm-12 col-md-8 col-lg-6 col-xl-4 rounded p-4 shadow bg-white">
                                 <div className="row justify-content-center mb-4">
-                                    <Image src="/smileface.png" width="70" height="69" alt="hi" className="w-25"></Image>
+                                    <Image src="/smileface.png" width="70" height="69" alt="" className="w-25"></Image>
                                 </div>
                                 <Formik
                                     initialValues={{

@@ -13,6 +13,7 @@ const PremiumArea = (props) => {
                 <div>
                     <div className={styles.headerText}>
                         <h2>Premium Members Area</h2>
+                        <p className={styles.textSuccess}>Success! You are a VIP! A premium member.</p>
                         <p>Only upgraded premium users should see this page</p>
                         <br />
                     </div>
@@ -32,7 +33,7 @@ const PremiumArea = (props) => {
                 <>
                 <div>
                     <div className={styles.headerText}>
-                        <h2>Sorry, Premium Members Only!</h2>
+                        <h2 className={styles.textWarning}>Sorry, Premium Members Only!</h2>
                         <p>Become one of our VIPs to see the hidden premium content!</p>
                         <br />
                     </div>
