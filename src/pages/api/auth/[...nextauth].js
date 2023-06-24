@@ -42,6 +42,9 @@ async function refreshAccessToken(tokenObject) {
         } else {
             // Fail. Return the API error message.
             logger.info(`[...nextauth].js - refreshAccessToken - Error in API tokenResponse. Status: ${tokenResponse.status}`);
+            logger.info(`[...nextauth].js - refreshAccessToken - token sent was ${tokenObject.refreshToken}`);
+            logger.info(`[...nextauth].js - refreshAccessToken - username sent was ${tokenObject.username}`);
+
             return {
                 ...tokenObject,
                 error: "RefreshAccessTokenError",
@@ -298,6 +301,9 @@ const callbacks = {
 
     async signIn({ user }) {
 
+        // TESTING
+        logger.info(`[...nextauth].js - signin callback - user.success is ${user.success}`);
+
         if (user.success){
             return true;
         } else {
@@ -340,6 +346,9 @@ const callbacks = {
         let utcDateNow = new Date().toISOString();
         // Refresh access token early.
         const earlyTokenExpiry = moment(token.accessTokenExpiry).subtract(2, 'minutes').toISOString();            // Moment is used to manipulate time easily.
+
+        // TESTING
+        let isGreater = earlyTokenExpiry > utcDateNow;
         
         // If the token is still valid, just return it.
         if (earlyTokenExpiry > utcDateNow) {
@@ -348,8 +357,10 @@ const callbacks = {
         }
 
         // TESTING
-        //logger.info(`[...nextauth].js - jwt callback - : earlyTokenExpiry > utcDateNow ${isGreater}`);
-        //logger.info(`[...nextauth].js - jwt callback - access token has expired. Refreshing token!`);
+        logger.info(`[...nextauth].js - jwt callback - earlyTokenExpiry > utcDateNow is ${isGreater}`);
+        logger.info(`[...nextauth].js - jwt callback - early token expiry is ${earlyTokenExpiry}`);
+        logger.info(`[...nextauth].js - jwt callback - utcDateNow is ${utcDateNow}`);
+        logger.info(`[...nextauth].js - jwt callback - access token has expired. Refreshing token!`);
 
         // If the access token has expired, refresh it.
         token = await refreshAccessToken(token);
