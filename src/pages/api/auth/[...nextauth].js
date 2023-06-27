@@ -302,7 +302,7 @@ const callbacks = {
     async signIn({ user }) {
 
         // TESTING
-        logger.info(`[...nextauth].js - signin callback - user.success is ${user.success}`);
+        logger.info(`[...nextauth].js - signin callback - user.success is ${user.success} - Username is ${user.UserName} - Refresh token is ${user.refreshToken}`);
 
         if (user.success){
             return true;
