@@ -6,6 +6,7 @@ import Layout from '@/shared/Layout';
 import styles from '@/styles/members/Premium.module.scss'
 import { useEffect } from 'react';
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
 
 const PremiumUpgradeSuccess = () => {
 

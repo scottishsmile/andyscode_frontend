@@ -4,6 +4,7 @@ import Layout from '@/shared/Layout';
 import styles from '@/styles/members/UpdateSelf.module.scss'
 import { signOut, useSession } from "next-auth/react";
 import {useEffect} from 'react';
+import { useRouter } from 'next/router';
 
 
 const UpdateSelfSuccess = () => {
