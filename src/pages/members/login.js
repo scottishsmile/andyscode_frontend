@@ -6,21 +6,25 @@ import Layout from '@/shared/Layout'
 import styles from '@/styles/members/Login.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { signIn } from 'next-auth/react';
-import { useSession } from 'next-auth/react';
-import useAuth from '@/auth/useAuth';
+import { useSession, signIn, signOut } from "next-auth/react";
 
 
 const Login = () => {
 
     const [loading, setLoading] = useState(false);          // Loading spinner on when true.
+    const {data:session} = useSession();
     const router = useRouter();
     let errorMsg = router.query;                            // Error message from [...nextauth].js in url query params
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session);           // true means we should redirect to login page if the user is not authenticated
+
+    useEffect(() => {
+        if (session?.error === "RefreshAccessTokenError") {
+            signOut();
+            router.replace('/members/login');
+        }
+    }, [session]);
 
 
     const loginFormSubmit = async (event) => {
@@ -53,12 +57,6 @@ const Login = () => {
 
     return (
         <>
-        {isAuthenticated ?
-            <div>
-                <p>You are already logged in.</p>
-                <Link href="/members/dashboard">Members dashboard</Link>
-            </div>
-        :
         <Layout
             title='Login'
             description='User Login Page'
@@ -126,7 +124,6 @@ const Login = () => {
                 </div>
             </div>
         </Layout>
-        }
         </>
     )
 }

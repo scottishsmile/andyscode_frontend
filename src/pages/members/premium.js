@@ -1,20 +1,28 @@
+'use client'
 import Link from 'next/link'
 import MembersLayout from '@/shared/members/MembersLayout';
-import styles from '@/styles/members/Premium.module.scss'
-import useAuth from '@/auth/useAuth'
-import { useSession } from "next-auth/react"
+import styles from '@/styles/members/Premium.module.scss';
+import { useSession, signOut } from "next-auth/react";
 import PremiumArea from '@/components/members/PremiumArea';
+import {useEffect} from 'react';
+import { useRouter } from 'next/router';
 
 const Premium = () => {
 
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session);      // true means we should redirect to login page if the user is not authenticated
+    const {data:session} = useSession();
     const roles = session?.user.roles;           // Roles Array ["AppBasic", "AppPremium"]
+    const router = useRouter();
+
+    useEffect(() => {
+        if (session?.error === "RefreshAccessTokenError") {
+            signOut();
+            router.replace('/members/login');
+        }
+    }, [session]);
 
 
     return (
         <>
-        {isAuthenticated ?
             <MembersLayout
                 title='Premium'
                 description='Premium Members'
@@ -24,14 +32,6 @@ const Premium = () => {
                     <PremiumArea roles={roles} />
                 </div>
             </MembersLayout>
-            : 
-            <div>
-                <div className="text-center">
-                    <p>Error: User Signed Out! Login to access this page.</p>
-                    <p><Link href="/members/login">Login</Link></p>
-                </div>
-            </div>
-        }
         </>
     )
 }

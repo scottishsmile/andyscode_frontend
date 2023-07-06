@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signOut } from "next-auth/react";
 import moment from 'moment';
 import {API_URL, API_VERSION_ACCEPT_HEADER} from '@/constants/constants';
 import logger from '@/logger/logger';
@@ -36,7 +35,7 @@ async function refreshAccessToken(tokenObject) {
                     ...tokenObject,
                     accessToken: response.data?.accessToken,
                     accessTokenExpiry: response.data?.accessTokenExpiry,
-                    refreshToken: response.data?.refreshToken,
+                    refreshToken: response.data?.refreshToken ?? tokenObject.refreshToken, // Fall back to old refresh token
                     refreshTokenExpiry: response.data?.refreshTokenExpiry
                 }
         } else {
@@ -302,7 +301,7 @@ const callbacks = {
     async signIn({ user }) {
 
         // TESTING
-        logger.info(`[...nextauth].js - signin callback - user.success is ${user.success} - Username is ${user.UserName} - Refresh token is ${user.refreshToken}`);
+        logger.info(`[...nextauth].js - signin callback - user.success is ${user.success} - Username is ${user.username} - Refresh token is ${user.refreshToken}`);
 
         if (user.success){
             return true;
@@ -365,13 +364,6 @@ const callbacks = {
         // If the access token has expired, refresh it.
         token = await refreshAccessToken(token);
 
-        if(token?.error === "RefreshAccessTokenError"){
-            logger.info(`[...nextauth].js - jwt callback - Refresh token has expired, signing out`);
-
-            // SignOut() can only be used client-side. So pass back a flag to trigger it in MembersLayout.js useEffect hook.
-            token.signMeOut = true;
-        }
-
         return token;
     },
     async session ({ session, token }) {
@@ -379,13 +371,7 @@ const callbacks = {
         session.user = token.user;
         session.accessToken = token.accessToken;
         session.accessTokenExpiry = token.accessTokenExpiry;
-        session.refreshToken = token.refreshToken;
-        session.refreshTokenExpiry = token.refreshTokenExpiry;
-        session.mfaToken = token.mfaToken;
-        session.mfaTokenExpiry = token.mfaTokenExpiry;
         session.error = token.error;
-        session.MFA_Enabled = token.MFA_Enabled;
-        session.signMeOut = token.signMeOut;
 
         return session;
     },

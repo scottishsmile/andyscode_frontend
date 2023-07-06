@@ -1,29 +1,28 @@
+'use client'
 import Link from 'next/link'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/MfaChangeSuccess.module.scss'
-import { signOut, useSession } from 'next-auth/react';
-import useAuth from '@/auth/useAuth'
-import {useEffect, useState} from 'react';
-import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
+import { signOut, useSession } from "next-auth/react";
+import {useEffect} from 'react';
 
 
 const MfaChangeSuccess = () => {
 
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session); 
+    const {data:session} = useSession();
+    const router = useRouter();
 
     useEffect(() => {
-        // Log the user out in 3 secs
-        // Otherwise the Next Auth session won't update.
-        setTimeout(() => { signOut() }, 3000);
-    }, []);
+        if (session?.error === "RefreshAccessTokenError") {
+            signOut();
+            router.replace('/members/login');
+        }
+    }, [session]);
 
 
 
 
     return (
         <>
-        {isAuthenticated ?
             <Layout
                 title='Update Success'
                 description='Edit your user profile'
@@ -34,14 +33,6 @@ const MfaChangeSuccess = () => {
                     <p>Please login again!</p>
                 </div>
             </Layout>
-        : 
-        <div>
-            <div>
-                <p>Error: User Signed Out! Login to access this page.</p>
-                <p><Link href="/members/login">Login</Link></p>
-            </div>
-        </div>
-        }
         </>
     )
 }
