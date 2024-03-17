@@ -49,9 +49,9 @@ const AuthProject = () => {
                 <br />
                 <h3>Take A Look</h3>
                 <p>The idea is that you can "plug in" your own app to this authentication system. So it will look bare bones.</p>
-                <p>My Auth Web App - <Link href="http://www.andyscode.net" >AndysCode.Net</Link></p>
-                <p>It's hosted on Smarterasp.net . They are cheap, but the web app isn't ALWAYS RUNNING. When 15mins without traffic pass they shut down the VMs.</p>
-                <p>So expect a minute of wait for the website to power on. Open the two links to boot the API and the React client.</p>
+                <p>I did host this app on Smarterasp.net originally but their infrastructure was VERY slow.</p>
+                <p>They are cheap, but the web app isn't ALWAYS RUNNING. When 15mins without traffic passes, they shut down the VMs.</p>
+                <p>So I have discontinued the hosting, the git repos will have to do...</p>
                 <p>Github Repo for the project is here - <Link href="https://github.com/scottishsmile/AuthProject" >Repo</Link></p>
                 <p>Project Discussion Document is here - <Link href="/projects/AuthProjectDiscussionDocumentV1.docx" >Repo</Link></p>
                 <br />

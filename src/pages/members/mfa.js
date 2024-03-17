@@ -30,7 +30,7 @@ const MfaPage = () => {
         // Get data from the form.
         const nextAuthSettings = {
             MfaToken: urlParams.mfaToken,
-            MfaCode: event.target.code.value.trim(),                    // trim() removes whitespace from both sides of a string but not in the middle.
+            MfaCode: event.target.code.value,
             UserName: urlParams.userName,
             redirect: true,
             callbackUrl: '/members/dashboard'                             // Send user to dashboard after login

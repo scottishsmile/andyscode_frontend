@@ -1,26 +1,20 @@
-'use client'
 import Link from 'next/link'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/Profile.module.scss'
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react';
+import useAuth from '@/auth/useAuth'
+import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import MembershipLevel from '@/components/members/MembershipLevel'
 
 const Profile = () => {
 
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session);           // true means we should redirect to login page if the user is not authenticated
     const [mfaLoading, setMFALoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
-    const {data:session} = useSession();
     const router = useRouter();
-
-    useEffect(() => {
-        if (session?.error === "RefreshAccessTokenError") {
-            signOut();
-            router.replace('/members/login');
-        }
-    }, [session]);
 
 
     const MfaToggleButton = async (event) => { 
@@ -72,6 +66,7 @@ const Profile = () => {
 
     return (
         <>
+        {isAuthenticated ?
             <Layout
                 title='User Profile'
                 description='User Profile And Settings'
@@ -132,6 +127,14 @@ const Profile = () => {
                     </div>
                 </div>
             </Layout>
+        : 
+        <div>
+            <div className="text-center">
+                <p>Error: User Signed Out! Login to access this page.</p>
+                <p><Link href="/members/login">Login</Link></p>
+            </div>
+        </div>
+        }
         </>
     )
 }

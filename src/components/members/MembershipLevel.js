@@ -4,7 +4,7 @@ const MembershipLevel = ({ roles }) => {
     // So we don't display "AppBasic" or "AppPremium" in the profile we just want to display "Basic" or "Premium"
 
     // Incase roles is undefined because user has logged out but 2nd browser is on the premium page.
-    if(roles !== null && roles !== undefined){
+    if(roles !== null){
 
         if(roles.includes('AppAdmin')){
             return(

@@ -1,23 +1,15 @@
-'use client'
 import Link from 'next/link'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/UpdateSelf.module.scss'
-import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from 'next-auth/react';
+import useAuth from '@/auth/useAuth'
 import {useEffect} from 'react';
-import { useRouter } from 'next/router';
 
 
 const UpdateSelfSuccess = () => {
 
-    const {data:session} = useSession();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (session?.error === "RefreshAccessTokenError") {
-            signOut();
-            router.replace('/members/login');
-        }
-    }, [session]);
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session); 
 
     useEffect(() => {
         // Log the user out in 3 secs
@@ -29,6 +21,7 @@ const UpdateSelfSuccess = () => {
 
     return (
         <>
+        {isAuthenticated ?
             <Layout
                 title='Update Success'
                 description='Edit your user profile'
@@ -39,6 +32,14 @@ const UpdateSelfSuccess = () => {
                     <p>Please login again!</p>
                 </div>
             </Layout>
+        : 
+        <div>
+            <div>
+                <p>Error: User Signed Out! Login to access this page.</p>
+                <p><Link href="/members/login">Login</Link></p>
+            </div>
+        </div>
+        }
         </>
     )
 }

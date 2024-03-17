@@ -1,30 +1,23 @@
-'use client'
-// Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
-
 import Link from 'next/link'
 import Layout from '@/shared/Layout'
 import styles from '@/styles/members/Login.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import useAuth from '@/auth/useAuth';
 
 
 const Login = () => {
 
     const [loading, setLoading] = useState(false);          // Loading spinner on when true.
-    const {data:session} = useSession();
     const router = useRouter();
     let errorMsg = router.query;                            // Error message from [...nextauth].js in url query params
-
-    useEffect(() => {
-        if (session?.error === "RefreshAccessTokenError") {
-            signOut();
-            router.replace('/members/login');
-        }
-    }, [session]);
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session);           // true means we should redirect to login page if the user is not authenticated
 
 
     const loginFormSubmit = async (event) => {
@@ -46,9 +39,6 @@ const Login = () => {
         // Send the form data to Next Auth
         const result = await signIn("credentials", nextAuthSettings);
 
-        // Logging
-        console.log(`login.js - Login result was `, result);
-
         // Toggle loading spinner OFF
         setLoading(false);
 
@@ -57,6 +47,12 @@ const Login = () => {
 
     return (
         <>
+        {isAuthenticated ?
+            <div>
+                <p>You are already logged in.</p>
+                <Link href="/members/dashboard">Members dashboard</Link>
+            </div>
+        :
         <Layout
             title='Login'
             description='User Login Page'
@@ -66,7 +62,7 @@ const Login = () => {
                         <div className="row align-items-center justify-content-center">
                             <div className="col-sm-12 col-md-8 col-lg-6 col-xl-4 rounded p-4 shadow bg-white">
                                 <div className="row justify-content-center mb-4">
-                                    <Image src="/smileface.png" width="70" height="69" alt="" className="w-25"></Image>
+                                    <Image src="/smileface.png" width="70" height="69" alt="hi" className="w-25"></Image>
                                 </div>
                                 <Formik
                                     initialValues={{
@@ -124,6 +120,7 @@ const Login = () => {
                 </div>
             </div>
         </Layout>
+        }
         </>
     )
 }

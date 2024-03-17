@@ -1,29 +1,23 @@
-'use client'
 import Link from 'next/link'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/ResetPass.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from 'next-auth/react';
+import useAuth from '@/auth/useAuth'
 
 
 const ResetPass = () => {
 
     const [loading, setLoading] = useState(false);          // Loading spinner on when true.
     const [errorMsg, setErrorMsg] = useState("");
-    const {data:session} = useSession();
     const router = useRouter();
-
-    useEffect(() => {
-        if (session?.error === "RefreshAccessTokenError") {
-            signOut();
-            router.replace('/members/login');
-        }
-    }, [session]);
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session); 
     
 
     // Formik Validation rules using Yup
@@ -105,6 +99,7 @@ const ResetPass = () => {
 
     return (
         <>
+        {isAuthenticated ?
             <Layout
             title='Reset Pass'
             description='Password Reset Page'>
@@ -168,6 +163,12 @@ const ResetPass = () => {
                 </div>
             </div>
         </Layout>
+    : 
+    <div>
+        <p>Loading... Taking too long? Try:</p>
+        <p><Link href="/members/login">Login</Link></p>
+    </div>
+    }
     </>
     )
 }

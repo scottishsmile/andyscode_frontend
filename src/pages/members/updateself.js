@@ -1,29 +1,22 @@
-'use client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/UpdateSelf.module.scss'
+import { useSession } from 'next-auth/react';
+import useAuth from '@/auth/useAuth'
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
-import { useSession, signOut } from "next-auth/react";
 
 
 const UpdateSelf = () => {
 
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session); 
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
-    const {data:session} = useSession();
     const router = useRouter();
-
-    useEffect(() => {
-        if (session?.error === "RefreshAccessTokenError") {
-            signOut();
-            router.replace('/members/login');
-        }
-    }, [session]);
-    
 
 
     // Formik Validation
@@ -120,6 +113,7 @@ const UpdateSelf = () => {
 
     return (
         <>
+        {isAuthenticated ?
             <Layout
                 title='Update Profile'
                 description='Edit your user profile'
@@ -188,6 +182,12 @@ const UpdateSelf = () => {
                             </div>
                     </div>
             </Layout>
+        : 
+        <div>
+            <p>Loading... Taking too long? Try:</p>
+            <p><Link href="/members/login">Login</Link></p>
+        </div>
+        }
         </>
     )
 }

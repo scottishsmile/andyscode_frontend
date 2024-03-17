@@ -39,3 +39,8 @@ yarn-error.log*
 
 # Logs
 .log
+
+# Sitemap and Robots files
+# We want these dynamically generated not copied from the repo
+/public/robots.txt
+/public/sitemap.xml

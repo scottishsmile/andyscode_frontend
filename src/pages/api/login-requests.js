@@ -37,8 +37,6 @@ const LoginReq = async (req, res) => {
 
             if (apiRes.status === 200) {
 
-                logger.info(`api/login-requests.js - API Login success. Response: `, data.message);
-
                 // Success 200 OK
                 return res.status(200).json({ 
                     success: data.success,              
