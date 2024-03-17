@@ -1,3 +1,5 @@
+'use client'
+// Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
 import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/Premium.module.scss'

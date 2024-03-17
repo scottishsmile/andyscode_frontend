@@ -1,3 +1,5 @@
+'use client'
+// Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'

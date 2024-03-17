@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/UpdateSelf.module.scss'

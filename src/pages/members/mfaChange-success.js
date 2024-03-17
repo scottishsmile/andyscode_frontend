@@ -1,3 +1,5 @@
+'use client'
+// Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/MfaChangeSuccess.module.scss'

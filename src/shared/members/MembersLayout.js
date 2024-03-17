@@ -1,3 +1,4 @@
+'use client'
 import Head from 'next/head';
 import styles from '@/styles/members/MembersLayout.module.scss'
 import Navbar from '@/components/Navbar/Navbar';
