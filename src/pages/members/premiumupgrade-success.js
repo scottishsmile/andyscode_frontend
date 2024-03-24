@@ -4,26 +4,19 @@ import Link from 'next/link'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/Premium.module.scss'
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '@/actions/auth';
-import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
+import useAuth from '@/auth/useAuth'
 
 const PremiumUpgradeSuccess = () => {
 
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const user = useSelector(state => state.auth.user); 
-
-    const dispatch = useDispatch();
-    const router = useRouter();
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session); 
 
     useEffect(() => {
         // Log the user out in 3 secs
-        setTimeout(() => {        
-            dispatch(logout()); 
-            router.push('/login');
-        }, 3000);
+        // Otherwise the Next Auth session won't update.
+        setTimeout(() => { signOut() }, 3000);
     }, []);
-    
 
     return (
         <>
@@ -42,7 +35,7 @@ const PremiumUpgradeSuccess = () => {
         <div>
             <div>
                 <p>Error: User Signed Out! Login to access this page.</p>
-                <p><Link href="/login">Login</Link></p>
+                <p><Link href="/members/login">Login</Link></p>
             </div>
         </div>
         }

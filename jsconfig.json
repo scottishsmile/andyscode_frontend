@@ -2,14 +2,13 @@
   "compilerOptions": {
       "baseUrl": "./src/",
       "paths": {
-        "@/actions/*": ["store/actions/*"],
         "@/auth/*" : ["pages/api/auth/*"],
         "@/blog/*" : ["pages/blog/*"],
         "@/components/*": ["components/*"],
         "@/constants*": ["constants/*"],
         "@/logger/*": ["logger/*"],
         "@/models/*": ["models/*"],
-        "@/reducers/*": ["store/reducers/*"],
+        "@/reducers/*": ["reducers/*"],
         "@/shared/*": ["shared/*"],
         "@/slices/*": ["slices/*"],
         "@/store/*": ["store/*"],

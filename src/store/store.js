@@ -1,51 +1,102 @@
-import { useMemo } from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunkMiddleware from 'redux-thunk';
-import reducers from './reducers';                                      // imports the combineReducer from reducers/index. So ALL of our reducers!
+import { create } from 'zustand'
+import { devtools, persist } from 'zustand/middleware'           // Allow redux devtools to work with zustand
+import produce from "immer";
 
-// The redux store is all the data for our app.
-let store;
+// https://docs.pmnd.rs/zustand/getting-started/introduction
+// Your store is a hook! 
+// You can put anything in it: primitives, objects, functions. The set function merges state.
 
-function initStore(initialState) {
-    // update with configureStore() ?
-    // https://redux-toolkit.js.org/api/configureStore
-    // import { configureStore } from '@reduxjs/toolkit'
-    return createStore(
-        reducers,
-        initialState,
-        composeWithDevTools(applyMiddleware(thunkMiddleware))
-    );
-};
+let store = (set) => ({
 
-export const initializeStore = (preloadedState) => {
 
-    // CREATE STORE
-    // If store is null then create/initialise a new store
-    // If store exsts then set let _store to the existing redux store.
-    let _store = store ?? initStore(preloadedState);
+    /*
+    UserName: "empty",
+    addUserName: (username) => set((state) => ({UserName: username})),
+    clearUserName: () => set((state) => ({UserName: "empty"})),
 
-    // After navigating to a page with an initial Redux state, merge that state
-    // with the current state in the store, and create a new store
-    if (preloadedState && store) {
-        _store = initStore({
-        ...store.getState(),
-        ...preloadedState,
+    // Global Store
+    const addUserName = useStore((state)=> state.addUserName);
+
+    // Set Global Store Values
+    addUserName(event.target.username.value);
+
+    */
+
+
+    
+
+
+    // Example creating a person array in state
+    // Then you can add a person to the array by calling the global state from a page or component
+    // const newPersonArray = useStpre(state) => state.addPerson('James Doe'));
+
+    people: ['John Doe', 'Jane Doe'],
+    addPerson: (person) => set((state) => ({people: [...state.people, person]})),
+
+    // Example creating a bear counter
+    // Increase the counter from a component by - const increaseBearPopulation = useStore((state) => state.increasePopulation);
+    //          return <button onClick={increasePopulation}>one up</button>
+    // Reset the counter from a component by - const resetBears = useStore((state) => state.removeAllBears);
+    //          return <button onClick={resetBears}>reset</button>
+    bears: 0,
+    increasePopulation: () => set((state) => ({ ...state.bears, bears: state.bears + 1 })),
+    removeAllBears: () => set({ bears: 0 }),
+
+
+    // Immer
+    // Changing deeply Nested state using Immer.
+    car: {
+        make: "Toyota",
+        model: {
+            name: "Camry",
+            designation: "SX"
+        }
+    },
+    changeCarModel: (newModelName) => set(
+        produce((draft) => {
+            draft.car.model.name = newModelName;               // Immer allows us to write like this when using immuateable objects
         })
-        // Reset the current store
-        store = undefined;
-    }
+    ),
+    changeCarDesignmation: (newDesig) => set(
+        produce((draft) => {
+            draft.car.model.designation = newDesig;
+        })
+    )
 
-    // For SSG and SSR always create a new store
-    if (typeof window === 'undefined') return _store;
-    // Create the store once in the client
-    if (!store) store = _store;
+    /*
+        Without using Immer you'd need to write:
 
-    return _store;
-}
+        car: {
+            make: "Toyota",
+            model: {
+                name: "Camry",
+                designation: "SX"
+            }
+        },
+        changeCarModel: (newModelName) => set(state) => ({
+            ...state.car,                                               // Spread operator everywhere. We copy objects and create new ones as we cant change them. Imutable.
+            model: {
+                ...state.model,
+                name: newModelName
+            }
+        })
+        changeCarDesignmation: (newDesig) => set(state) => ({
+            ...state.car,
+            model: {
+                ...state.model,
+                designation: newDesig
+            }
+        ),
 
-export function useStore(initialState) {
-    // useMemo basically caches results and returns them if it's a known request rather than query redux store. Saves time.
-    const store = useMemo(() => initializeStore(initialState), [initialState]);
-    return store;
-};
+    */
+
+});
+
+
+    store = devtools(store);                                    // Wrap the store the the devtools middlewear. Allows us to use redux devtools.
+    store = persist(store, { name: 'myAppsSettings'});          // Save the store to local storage with persist(). Allows us to keep state after page refresh.
+
+
+const useStore = create(store);
+
+export default useStore;

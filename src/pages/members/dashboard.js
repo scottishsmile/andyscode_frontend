@@ -3,21 +3,14 @@
 import Link from 'next/link'
 import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/Dashboard.module.scss'
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
-import { SyncLoader } from 'react-spinners';
+import useAuth from '@/auth/useAuth'
+import { useSession } from 'next-auth/react';
 
 const Dashboard = () => {
 
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const user = useSelector(state => state.auth.user); 
-    const router = useRouter();
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session);       // true means we should redirect to login page if the user is not authenticated
 
-    if (typeof window !== 'undefined' && !isAuthenticated){
-        
-        // If unathenticated redirect them back to login page
-        router.push('/login');
-    }
 
     return (
         <>
@@ -27,7 +20,7 @@ const Dashboard = () => {
                 description='Members Area Dashboard'
             >
                 <div className={styles.pagecontainer}>
-                    {user?.EnableMFA === false ?
+                    {session?.MFA_Enabled === false ?
                         <div className={styles.topAlertBanner}>
                             <p>You should enable <b>Multi-Factor Authentication</b> to secure the account. Enable it here: <Link href="/members/profile">Profile</Link></p>
                         </div>
@@ -52,20 +45,8 @@ const Dashboard = () => {
         : 
         <div>
             <div className="text-center">
-                <div className="d-flex col align-items-center justify-content-center">
-                    <SyncLoader
-                        color='blue'
-                        loading={true}
-                        size={20}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                    />
-                </div>
-                <div className="d-flex col align-items-center justify-content-center">
-                    <br />
-                    <p>Logging in...</p>
-                    <p><Link href="/login">Login</Link></p>
-                </div>
+                <p>Error: User Signed Out! Login to access this page.</p>
+                <p><Link href="/members/login">Login</Link></p>
             </div>
         </div>
         }

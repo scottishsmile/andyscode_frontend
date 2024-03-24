@@ -1,35 +1,28 @@
 'use client'
 import Head from 'next/head';
-import styles from '@/styles/members/MembersLayout.module.scss';
+import styles from '@/styles/members/MembersLayout.module.scss'
 import Navbar from '@/components/Navbar/Navbar';
-import Footer from '@/components/Footer';
-import Image from 'next/image';
-import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { request_refresh } from '@/actions/auth';
+import Footer from '@/components/Footer'
+import Image from 'next/image'
+import { useRouter } from 'next/router';
+import { useSession, signOut } from 'next-auth/react';
+import { useEffect } from "react";
+
 
 // We can pass in the header title and header content from the index page.
 // The children is all the other HTML stuff on the index (or whatever) page.
 
 const MembersLayout = ({ title, content, children }) => {
 
-    const dispatch = useDispatch();
-
-    const run = useRef(0);
+    const { data: session } = useSession();
+    const router = useRouter();
 
     useEffect(() => {
-        if (process.env.NODE_ENV === 'development') {
-            if (run.current !== 0) {
-                if (dispatch && dispatch !== null && dispatch !== undefined)
-                    dispatch(request_refresh());
-            }
-            run.current++;
+        // Check if Next-Auth has set the sign out flag to true.
+        if (session?.signMeOut === true) {
+            signOut();
         }
-        else {
-            if (dispatch && dispatch !== null && dispatch !== undefined)
-                dispatch(request_refresh());
-        }
-        }, [dispatch]);
+      }, [session?.signMeOut, router]);
 
     return (
         <>

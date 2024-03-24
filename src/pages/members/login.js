@@ -1,89 +1,61 @@
-'use client' 
+'use client'
 // Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
-import MembersLayout from '@/shared/members/MembersLayout';
-import styles from '@/styles/login.module.scss'
+import Layout from '@/shared/Layout'
+import styles from '@/styles/members/Login.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import { SyncLoader } from 'react-spinners';                      // npm install --save react-spinners
+import { useState } from 'react';
+import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { login, reset_register_success } from '@/actions/auth';
+import { signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import useAuth from '@/auth/useAuth';
+
 
 const Login = () => {
 
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const user = useSelector(state => state.auth.user); 
-    const mfaFlag = useSelector(state => state.login.mfaFlag);
-    const errorMsg = useSelector(state => state.auth.errorMsg_login);
-    const loading = useSelector(state => state.auth.loading); 
-    const dispatch = useDispatch();
-
+    const [loading, setLoading] = useState(false);          // Loading spinner on when true.
     const router = useRouter();
+    let errorMsg = router.query;                            // Error message from [...nextauth].js in url query params
+    const { data: session} = useSession();
+    const isAuthenticated = useAuth(true, session);           // true means we should redirect to login page if the user is not authenticated
 
-
-    useEffect(() => {
-        if (dispatch && dispatch !== null && dispatch !== undefined){
-            dispatch(reset_register_success());
-        }
-
-        if(mfaFlag === true){
-            // MFA is enabled for the account.
-            // redirect to MFA page
-            router.push('/login-mfa');
-        }
-
-    }, [dispatch, mfaFlag]);
 
     const loginFormSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
         event.preventDefault()
 
+        // Toggle loading spinner ON
+        setLoading(true);
+
         // Get data from the form.
-        const formData = {
+        const nextAuthSettings = {
           UserName: event.target.username.value,
           Password: event.target.password.value,
           MfaCode: "empty",
+          redirect: true,
+          callbackUrl: '/members/dashboard'                             // Send user to dashboard after login
         }
     
-        // Login
-        if (dispatch && dispatch !== null && dispatch !== undefined){
-            dispatch(login(formData.UserName, formData.Password));
-        }
+        // Send the form data to Next Auth
+        const result = await signIn("credentials", nextAuthSettings);
 
-        if(isAuthenticated){
-            router.push('/members/dashboard');
-        }
-        
-    }
+        // Toggle loading spinner OFF
+        setLoading(false);
 
-
-    if (typeof window !== 'undefined' && isAuthenticated){
-        router.push('/members/dashboard');
     }
 
 
     return (
         <>
         {isAuthenticated ?
-            <div className="text-center">
-                <div className="d-flex col align-items-center justify-content-center">
-                    <SyncLoader
-                        color='blue'
-                        loading={true}
-                        size={20}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                    />
-                </div>
-                <div className="d-flex col align-items-center justify-content-center">
-                    <p>Processing your login details...</p>
-                    <Link href="/members/dashboard">Members dashboard</Link>
-                </div>
+            <div>
+                <p>You are already logged in.</p>
+                <Link href="/members/dashboard">Members dashboard</Link>
             </div>
         :
-        <MembersLayout
+        <Layout
             title='Login'
             description='User Login Page'
             keywords=''>
@@ -143,13 +115,13 @@ const Login = () => {
                                     <p className={styles.loginBoxTextBottom}>New User? <Link href="/members/register" className={styles.loginBoxLink}>Sign Up</Link></p>
                                 </div>
                                 <div>
-                                    <p className="text-danger text-center">{errorMsg}</p>
+                                    <p className="text-danger text-center">{errorMsg.error}</p>
                                 </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </MembersLayout>
+        </Layout>
         }
         </>
     )

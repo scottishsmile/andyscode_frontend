@@ -1,40 +1,23 @@
-'use client'
 import Link from 'next/link'
 import Layout from '@/shared/Layout'
-import styles from '@/styles/login.module.scss'
+import styles from '@/styles/members/Login.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import { SyncLoader } from 'react-spinners';                      // npm install --save react-spinners
+import { useState } from 'react';
+import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { mfaLogin, reset_register_success } from '@/actions/auth';
+import { signIn } from 'next-auth/react';
 
 
 const MfaPage = () => {
 
     const [loading, setLoading] = useState(false);          // Loading spinner on when true.
     const router = useRouter();
-    const dispatch = useDispatch();
+    let urlParams = router.query;                            // Error message from [...nextauth].js in url query params
 
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const username = useSelector(state => state.login.username); 
-    const password = useSelector(state => state.login.password); 
-    const mfaToken = useSelector(state => state.login.mfaToken); 
-    const errorMsg = useSelector(state => state.auth.errorMsg_login);
-
-
-    // If user is not authenticated redirect them back to login page.
-    // Only logged in users should be able to see the dashboard page.
-    if (typeof window !== 'undefined' && isAuthenticated){
-        router.push('/members/dashboard');
-    }
-
-
-    useEffect(() => {
-        if (dispatch && dispatch !== null && dispatch !== undefined)
-            dispatch(reset_register_success());
-    }, [dispatch]);
+    // Global Store
+    //const userName = useStore((state) => state.UserName);
+    //const clearUserName = useStore((state) => state.clearUserName);
 
 
     const mfaFormSubmit = async (event) => {
@@ -45,12 +28,16 @@ const MfaPage = () => {
         setLoading(true);
 
         // Get data from the form.
-        const mfaCode = event.target?.code.value;
+        const nextAuthSettings = {
+            MfaToken: urlParams.mfaToken,
+            MfaCode: event.target.code.value,
+            UserName: urlParams.userName,
+            redirect: true,
+            callbackUrl: '/members/dashboard'                             // Send user to dashboard after login
+        }
     
         // Send the form data to Next Auth
-        if (dispatch && dispatch !== null && dispatch !== undefined){
-            dispatch(mfaLogin(username, password, mfaCode, mfaToken));
-        }
+        const result = await signIn("credentials", nextAuthSettings);
 
         // Toggle loading spinner OFF
         setLoading(false);
@@ -71,7 +58,12 @@ const MfaPage = () => {
                                 <div className="row justify-content-center mb-4">
                                     <Image src="/smileface.png" width="70" height="69" alt="hi" className="w-25"></Image>
                                 </div>
-                                <Formik>
+                                <Formik
+                                    initialValues={{
+                                        username: "",
+                                        password: "",
+                                    }}
+                                >
                                     {formik => (
                                         <div>
 
@@ -105,10 +97,10 @@ const MfaPage = () => {
                                     )}
                                 </Formik>
                                 <div>
-                                    <p className={styles.loginBoxTextBottom}>Go back to login page? <Link href="/login" className={styles.loginBoxLink}>Back</Link></p>
+                                    <p className={styles.loginBoxTextBottom}>Go back to login page? <Link href="/members/login" className={styles.loginBoxLink}>Back</Link></p>
                                 </div>
                                 <div>
-                                    <p className="text-danger text-center">{errorMsg}</p>
+                                    <p className="text-danger text-center">{urlParams.error}</p>
                                 </div>
                         </div>
                     </div>

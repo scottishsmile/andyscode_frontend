@@ -4,10 +4,6 @@ export const COMPANY_NAME = process.env.COMPANY_NAME;
 export const ADMIN_EMAIL = `admin@mywebsite.com`;
 export const TERMS_PRIVACY_EMAIL = `privacy@mywebsite.com`;
 export const BLOG_POSTS_PER_PAGE = 6;
-export const ACCESS_COOKIE_NAME = 'andyscode_access';
-export const REFRESH_COOKIE_NAME = 'andyscode_refresh';
-export const ACCESS_COOKIE_MAX_AGE = 60 * 60;                   // Must match token settings in backend. Cookie library uses seconds!
-export const REFRESH_COOKIE_MAX_AGE = 60 * 10080;               // Must match token settings in backend. Cookie library uses seconds!
 
 
 // PUBLIC info available in frontend. Environment Variables.
@@ -28,3 +24,13 @@ export const GOOGLE_RECAPTCHA_SECRET_KEY_V3 = process.env.GOOGLE_RECAPTCHA_SECRE
 export const GOOGLE_RECAPTCHA_SECRET_KEY_V2 = process.env.GOOGLE_RECAPTCHA_SECRET_KEY_V2
 export const GOOGLE_RECAPTCHA_URL = process.env.GOOGLE_RECAPTCHA_URL
 
+
+// How long before the access token's expiry date do we refresh it? 10 min before it expires?
+// In milisecs. 600000  is 10min, 120000 Ms is 2 mins.
+// Everytime we refresh the access token we get a NEW refresh token.
+// Default is access token is 1 hr, refresh token is 1 week.
+// The user MUST be on the website and CHANGE PAGES for this process to get run.
+// So user MUST changes pages sometime after 50 min of reciving the 1 hr access token WHILE the 1 week refresh token is valid.
+// Refreshing the access token gets you a new refresh token and another week.
+// Used by /components/RefreshTokenHandler.js
+export const ACCESS_TOKEN_REFRESH_TIME_MILISECS = 600000;

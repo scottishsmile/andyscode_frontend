@@ -1,43 +1,24 @@
-import cookie from 'cookie';
-import {API_URL, API_VERSION_ACCEPT_HEADER, ACCESS_COOKIE_NAME} from '@/constants/constants';
+import {API_URL, API_VERSION_ACCEPT_HEADER} from '@/constants/constants';
 import logger from '@/logger/logger';
 
 const ToggleMFAReqToken = async (req, res) => {
 
     if (req.method === 'POST') {
 
+        // Token
+        // Use NextJS Dynamic Routes to pass in a token as a query param
+        // https://nextjs.org/docs/api-routes/dynamic-api-routes
+        const { token } = req.query;
 
-        // Parse our cookies. 
-        // No cookies in browser, req.headers.cookie will return undefined. If it's undefined use an empty string ''.
-        // If we parse '' we get {} and empty object
-        // So we will either get a user object or an empty object.
-        const cookies = cookie.parse(req.headers.cookie ?? '');
-        let token = false;
-        let username = '';
-
-        if(cookies !== '' && cookies !== undefined){
-            const accessDecoded = decodeURI(cookies[ACCESS_COOKIE_NAME]).trim();              // The cookie value is in base64 url format. Converts into a srting.
-            const accessData = await JSON.parse(accessDecoded);                    // Convert the string into JSON.
-            token = accessData.accessToken ?? false;
-            username = accessData.username ?? false;
-        }
-
-        if (token === false) {
-            // Fail. No cookie.
-            logger.error('api/toggle-mfa-requests - No Access Cookie - 401 Error ');
-
-            return res.status(401).json({
-                error: 'Unauthorized, no access cookie for MFA request'
-            });
-        }
 
         // Get the values from the body of the POST request.
         const {
+            UserName,
             MfaSwitch
         } = req.body;
 
         const body = JSON.stringify({
-            username,
+            UserName,
             MfaSwitch
         });
 
@@ -78,10 +59,10 @@ const ToggleMFAReqToken = async (req, res) => {
 
             // Fail
 
-            logger.error('api/toggle-mfa-requests - Is API running and accessible? - 500 Error ' + err);
+            logger.error('api/toggle-mfa-requests/[token].js - Is API running and accessible? - 500 Error ' + err);
 
             return res.status(500).json({
-                message: 'Something went wrong when toggling MFA', 
+                message: 'Something went wrong when changing password', 
                 err: err
             });
 
@@ -90,7 +71,7 @@ const ToggleMFAReqToken = async (req, res) => {
     } else {
         // Fail
         // Error. Not a POST request. They tried GET or PUT etc.
-        logger.info(`api/toggle-mfa-requests - Method: ${req.method} . Wrong Request Type. It should be a POST request!`);
+        logger.info(`apitoggle-mfa-requests/[token].js - Method: ${req.method} . Wrong Request Type. It should be a POST request!`);
 
         res.setHeader('Allow', ['POST']);
         return res.status(405).json({ 'error': `Method ${req.method} not allowed`});

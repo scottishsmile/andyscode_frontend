@@ -6,14 +6,13 @@ import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { menuLinks } from './MenuLinks'                         // Object containing the navbar links
-import { userMenuLinks } from './UserMenuLinks'
+import {menuLinks, site} from './MenuLinks'                         // Object containing the navbar links
+import {userMenuLinks} from './UserMenuLinks'
 import styles from '@/styles/navbar/Navbar.module.scss'
 import Image from 'next/image'
 import NavItem from 'react-bootstrap/NavItem'
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { FaSignInAlt, FaSignOutAlt, FaUserPlus, FaUserCircle } from 'react-icons/fa';           // npm install react-icons
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '@/actions/auth';
 
 
 // MenuItem generates the Nav Links. 
@@ -90,8 +89,8 @@ const DropdownItem = ({ title, path, divider }) => {
 
   // User Profile Dropdown 
   //
-  // Similar to the MenuLinks function, except we use user.username in the dropdown title.
-  const UserLinksMenuItem = ({title, path, subMenu, id, user}) => {
+  // Similar to the MenuLinks function, except we use the session.user.username in the dropdown title.
+  const UserLinksMenuItem = ({title, path, subMenu, id, session}) => {
 
     const router = useRouter();
   
@@ -118,7 +117,7 @@ const DropdownItem = ({ title, path, divider }) => {
       // Even use a Font Awesome Icon in there as well!
       // title={<span  className={styles.navDropDownLink}><FaUserCircle /> {title}</span>}
       return (
-        <NavDropdown title={<span><FaUserCircle className={styles.faStyles} /> {user?.userName}</span>} id={`nav-dropdown-${id}`} active={activeChild}>
+        <NavDropdown title={<span><FaUserCircle className={styles.faStyles} /> {session?.user.username}</span>} id={`nav-dropdown-${id}`} active={activeChild}>
         {subMenu.map((item, index) => (
           <DropdownItem {...item} key={index} ></DropdownItem>
         ))}
@@ -137,23 +136,10 @@ const DropdownItem = ({ title, path, divider }) => {
 
 const NavHeader = () => {
 
-
-    // Use this to display the Login or Signout links.
-    const user = useSelector(state => state.auth.user);
-
-    const dispatch = useDispatch();
-
-    // Check redux state is not null/undefined. User should be logged in already.
-    // Then logout the user.
-    const logoutHandler = () => {
-
-        if (dispatch && dispatch !== null && dispatch !== undefined)
-
-            // TESTING
-            console.log(`components/NavHeader.js - NavHeader logged you out`);
-            
-            dispatch(logout());
-    };
+  // Next-Auth Login Session
+  // Grab the data from the session and rename it to session.
+  // Use this to display the Login or Signout links.
+    const { data: session} = useSession();
 
 
     // <Container fluid> - fluid makes the navbar full width
@@ -181,20 +167,21 @@ const NavHeader = () => {
             </Nav>
             <Nav pullright="true">
               {/* Right-Side Login Link */}
-              {user? (
+              {/* Next-Auth handles what links to show */}
+              {session?.user ? (
                 <>
                 {/* Iterate over to produce profile dropdown menu UserMenuLinks.js */}
                   {userMenuLinks.map((item, index) => (
-                    <UserLinksMenuItem {...item} key={index} user={user}/>
+                    <UserLinksMenuItem {...item} key={index} session={session}/>
                   ))}
                   <NavItem>
-                    <Nav.Link as={Link} href='/members/signout' onClick={logoutHandler}><FaSignOutAlt className={styles.faStyles} /> Signout</Nav.Link>
+                    <Nav.Link as={Link} href='/members/signout' onClick={() => signOut({callbackUrl: '/'})}><FaSignOutAlt className={styles.faStyles} /> Signout</Nav.Link>
                   </NavItem>
                 </>
               ) : (
                 <>
                   <NavItem>
-                    <Nav.Link as={Link} href='/login' className={styles.loginRegLinks}><FaSignInAlt className={styles.faStyles}  /> Login</Nav.Link>
+                    <Nav.Link as={Link} href='/members/login' onClick={() => signIn()} className={styles.loginRegLinks}><FaSignInAlt className={styles.faStyles}  /> Login</Nav.Link>
                   </NavItem>
                   <NavItem>
                     <Nav.Link as={Link} href='/members/register' className={styles.loginRegLinks}><FaUserPlus className={styles.faStyles}  /> Register</Nav.Link>

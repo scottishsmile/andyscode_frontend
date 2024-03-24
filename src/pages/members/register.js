@@ -5,36 +5,21 @@ import Layout from '@/shared/Layout';
 import styles from '@/styles/members/Register.module.scss'
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { useState, useRef  } from 'react';
+import { useState,useRef  } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import TermsAndConditions from '@/components/termsAndConditions.js';
 import GoogleReCaptchaV2 from '@/components/GoogleReCaptchaV2';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {GOOGLE_RECAPTCHA_SITE_KEY_V2} from '@/constants/constants';
-import { useSelector, useDispatch } from 'react-redux';
-import { register } from '@/actions/auth';
 
 
 const Register = () => {
 
-    const router = useRouter();
-
-    // Redux states
-    // useSelector returns state from the redux store.
-    // useDispatch runs the redux actions
-
-    // Dispatch calls an action. This triggers a state change.
-    // The only way to trigger an action and change the state in the redux store is with a dispatch.
-    // mapStateToProps() has been replaced by userSelector() / useDispatch() hooks
-    const dispatch = useDispatch();
-    const register_success = useSelector(state => state.auth.register_success);                     // Grab the state object from the store. useSelector() does this for you.
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const loading = useSelector(state => state.auth.loading);                                       // Loading Spinner
-    const errorMsg = useSelector(state => state.auth.errorMsg_register);
-
-    //const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
     const [uniqueUsernameLoading, setUniqueUsernameLoading] = useState(false);
     const [uniqueUsernameErrorMsg, setUniqueUsernameErrorMsg] = useState("Is it available?");
+    const router = useRouter();
     const [newsletterCheckbox, setNewsletterCheckbox] = useState(true);
     const [reCaptchaVerified, setReCaptchaVerified] = useState(false);
     const captchaRef = useRef(null);
@@ -136,32 +121,56 @@ const Register = () => {
             captchaRef.current.reset();
          }
     }
-    
+
 
     const registerFormSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
         event.preventDefault()
 
+        // Toggle loading spinner ON
+        setLoading(true);
+    
         // Get data from the form.
         const data = {
-            Email: event.target.email.value,
-            UserName: event.target.username.value,
-            Password: event.target.password1.value,
-            Newsletter: newsletterCheckbox
-          }
+          Email: event.target.email.value,
+          UserName: event.target.username.value,
+          Password: event.target.password1.value,
+          Newsletter: newsletterCheckbox
+        }
+    
+        const JSONdata = JSON.stringify(data)
+    
+        // Form the request for sending data to the server.
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSONdata,
+        }
+    
+        // Send the form data to our API
+        // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
+        const response = await fetch(`/api/register-requests`, options)
+    
+        // Get the response data from server as JSON.
+        // If server returns the name submitted, that means the form works.
+        const result = await response.json()
 
-        // Redux states
-        // Make sure dispatch exists and is not null
-        if (dispatch && dispatch !== null && dispatch !== undefined){
-            // Call the register action
-            dispatch(register(data));
+        // Toggle loading spinner OFF
+        setLoading(false);
+
+        // Route to success page.
+        if (result.success){
+            router.push('/members/register-success');
+        }
+        else {
+            // Display the API Error Message On The Page
+            setErrorMsg(result.message);
         }
 
     };
-
-    if(register_success == true){
-        router.push('/members/register-success');
-    }
 
     
     return (
@@ -238,7 +247,7 @@ const Register = () => {
                                             </div>
                                             <div className="mb-4">
                                                 <p>Subscribe to our Monthly newsletter ?
-                                                <Field type="checkbox"  id='newsletters' name='newsletter' checked={newsletterCheckbox} onChange={newsletterCheckboxHandler} className={styles.termsConditionsCheckbox} /></p>
+                                                <Field type="checkbox"  id='termsconditions' name='termsconditions' checked={newsletterCheckbox} onChange={newsletterCheckboxHandler} className={styles.termsConditionsCheckbox} /></p>
                                             </div>
                                             <div className={styles.captchaContainer}>
                                                 {/* Google Captcha Widget */}
