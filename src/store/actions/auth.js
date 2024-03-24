@@ -16,7 +16,8 @@ import {
     AUTHENTICATED_SUCCESS,
     AUTHENTICATED_FAIL,
     TOGGLE_MFA_FAIL,
-    SET_MFA_FLAG
+    SET_MFA_FLAG,
+    RESET_MFA_CHANGE_SUCCESS
 } from './types';
 
 import { saveLogin, clearLogin, set_mfa_value } from './login.js';
@@ -464,5 +465,15 @@ export const toggle_mfa = (mfaSwitch) => async dispatch => {
         // Maybe dispatch(load_user()) ?
 
     }
+};
+
+
+
+// TOGGLE MFA
+export const reset_mfa_change_success = () => dispatch => {
+
+    dispatch({
+        type: RESET_MFA_CHANGE_SUCCESS
+    });
 };
 

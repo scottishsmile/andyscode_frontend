@@ -5,8 +5,7 @@ import {
     REMOVE_LOGIN_LOADING,
     TOGGLE_MFA,
     SET_MFA_TOGGLE_LOADING,
-    REMOVE_MFA_TOGGLE_LOADING,
-    SET_MFA_FLAG
+    REMOVE_MFA_TOGGLE_LOADING
 } from './types';
 
 // ACTION CREATER - a function that returns an action object.

@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import Layout from '@/shared/Layout'
-import styles from '@/styles/login.module.scss'
+import styles from '@/styles/Login.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';

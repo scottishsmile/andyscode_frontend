@@ -2,7 +2,7 @@
 // Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
 import MembersLayout from '@/shared/members/MembersLayout';
-import styles from '@/styles/login.module.scss'
+import styles from '@/styles/Login.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';

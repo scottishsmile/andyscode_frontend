@@ -16,7 +16,8 @@ import {
     AUTHENTICATED_FAIL,
     TOGGLE_MFA,
     SET_MFA_TOGGLE_LOADING,
-    REMOVE_MFA_TOGGLE_LOADING
+    REMOVE_MFA_TOGGLE_LOADING,
+    RESET_MFA_CHANGE_SUCCESS
 } from '@/actions/types';
 
 // The actions announce to redux there has been a change.
@@ -175,6 +176,11 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 mfa_toggle_loading: false
+            }
+        case RESET_MFA_CHANGE_SUCCESS:
+            return {
+                ...state,
+                mfa_change_success: false
             }
         default:
             return state;

@@ -4,11 +4,11 @@ import Link from 'next/link'
 import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/Profile.module.scss'
 import { useRouter } from 'next/router'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SyncLoader } from 'react-spinners';                      // npm install --save react-spinners
 import MembershipLevel from '@/components/members/MembershipLevel'
-import { toggle_mfa } from '@/actions/auth';
+import { toggle_mfa, reset_mfa_change_success } from '@/actions/auth';
 
 
 const Profile = () => {
@@ -29,6 +29,7 @@ const Profile = () => {
         router.push('/login');
     }
 
+
     const MfaToggleButton = async (event) => { 
 
         event.preventDefault();
@@ -39,14 +40,14 @@ const Profile = () => {
 
         dispatch(toggle_mfa(mfaSwitch))
 
-        // User will be logged out on this page.
         if (mfaChangeSuccess){
+            dispatch(reset_mfa_change_success())
+            setErrorMsg("");
             router.push('/members/mfaChange-success');
-        }
-        else {
+        } else {
             setErrorMsg("Error! Sorry, we could not change the MFA.");
         }
-
+    
         setLoading(false);
 
     }
