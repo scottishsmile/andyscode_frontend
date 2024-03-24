@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Layout from '@/shared/Layout';
 import styles from '@/styles/members/RegisterSuccess.module.scss'
 
-const About = () => {
+const RegisterSuccess = () => {
     return (
         <Layout
             title='Success'
@@ -22,7 +22,7 @@ const About = () => {
                                 <h4>Confirmation email sent, open it and click the link.</h4>
                                 <h4>Please check your <b className="text-danger">junk email folder</b> incase it ends up there.</h4>
                                 <br />
-                                <p><Link href="/members/login">Log In</Link> ( after confirming your email )</p>
+                                <p><Link href="/login">Log In</Link> ( after confirming your email )</p>
                             </div>
                         </div>
                     </div>
@@ -32,4 +32,4 @@ const About = () => {
     )
 }
     
-export default About;
+export default RegisterSuccess;

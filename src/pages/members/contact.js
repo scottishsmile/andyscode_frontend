@@ -1,30 +1,37 @@
 'use client'
 // Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
-import Layout from '@/shared/Layout';
+import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/Contact.module.scss'
-import useAuth from '@/auth/useAuth'
 import GoogleReCaptchaV2 from '@/components/GoogleReCaptchaV2';
 import { useRouter } from 'next/router';
 import { useState, useRef } from 'react';
-import { useSession } from 'next-auth/react';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import * as Yup from 'yup';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {GOOGLE_RECAPTCHA_SITE_KEY_V2} from '@/constants/constants';
+import { useSelector } from 'react-redux';
 
 
 const Contact = () => {
 
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session);      // true means we should redirect to login page if the user is not authenticated
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const user = useSelector(state => state.auth.user); 
+    const accessToken = useSelector(state => state.auth.accessToken); 
+
     const [loading, setLoading] = useState(false);          // Loading spinner on when true.
     const [errorMsg, setErrorMsg] = useState("");
     const router = useRouter();
     const captchaRef = useRef(null);
     const [reCaptchaVerified, setReCaptchaVerified] = useState(false);
 
+
+    if (typeof window !== 'undefined' && !isAuthenticated){
+        
+        // If unathenticated redirect them back to login page
+        router.push('/login');
+    }
     
     // Formik Validation rules using Yup
     // validationSchema={validate} in <Formik /> below.
@@ -67,7 +74,7 @@ const Contact = () => {
 
         // Get data from the form.
         const data = {
-          UserName: session?.user.username,
+          UserName: user?.userName,
           Subject: event.target.subject.value,
           Message: event.target.message.value,
         }
@@ -87,8 +94,7 @@ const Contact = () => {
         // Send the request to the API
         // Use NextJS Dynamic Routes to pass the token as a query string to the api folder requests module.
         // https://nextjs.org/docs/api-routes/dynamic-api-routes
-        let token = session?.user.accessToken;
-        const response = await fetch(`/api/contact-requests/${token}`, options);
+        const response = await fetch(`/api/contact-requests/${accessToken}`, options);
     
         const result = await response.json();
 
@@ -109,7 +115,7 @@ const Contact = () => {
     return (
         <>
             {isAuthenticated ?
-                <Layout
+                <MembersLayout
                     title='Contact'
                     description='Contact Us Form'
                 >
@@ -133,11 +139,11 @@ const Contact = () => {
                                             <Form onSubmit={contactFormSubmit} id="contact-form">
                                                 <div className="mb-4">
                                                     <label htmlFor="username" className="form-label"><b className={styles.contactBoxText}>Username: </b></label>
-                                                    <span> {session.user.username}</span>
+                                                    <span> {user?.userName}</span>
                                                 </div>
                                                 <div className="mb-4">
                                                 <label htmlFor="email" className="form-label"><b className={styles.contactBoxText}>Email: </b></label>
-                                                <span> {session.user.email}</span>
+                                                <span> {user?.email}</span>
                                             </div>
                                             <div className="mb-4">
                                                 <label htmlFor="subject" className="form-label"><b className={styles.contactBoxText}>Subject</b></label>
@@ -182,11 +188,11 @@ const Contact = () => {
                             </div>
                         </div>
                     </div>
-                </Layout>
+                </MembersLayout>
             : 
             <div>
                 <p>Loading... Taking too long? Try:</p>
-                <p><Link href="/members/login">Login</Link></p>
+                <p><Link href="/login">Login</Link></p>
             </div>
             }
         </>

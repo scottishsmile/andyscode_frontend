@@ -19,7 +19,7 @@ const ForgotPassSuccess = () => {
                                         <p className="text-success">Thanks!</p>
                                         <p className="text-success">Password Reset Email Sent.</p>
                                         <p className="text-warning"><b>Check Your Junk Email Folder.</b></p>
-                                        <Link href='/members/login'>Login Again</Link>
+                                        <Link href='/login'>Login Again</Link>
                                     </div>
                                 </div>
                             </div>

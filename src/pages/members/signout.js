@@ -18,7 +18,7 @@ const Signout= () => {
                                     <div className="mb-4 text-center">
                                         <p className="text-warning"><b>Logged Out!</b></p>
                                         <p className="text-success">You have signed out.</p>
-                                        <Link href='/members/login'>Login Again</Link>
+                                        <Link href='/login'>Login Again</Link>
                                     </div>
                                 </div>
                             </div>

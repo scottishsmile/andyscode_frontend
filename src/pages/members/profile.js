@@ -1,67 +1,53 @@
 'use client'
 // Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
-import Layout from '@/shared/Layout';
+import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/Profile.module.scss'
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router'
-import useAuth from '@/auth/useAuth'
 import { useState } from 'react';
-import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
+import { useSelector, useDispatch } from 'react-redux';
+import { SyncLoader } from 'react-spinners';                      // npm install --save react-spinners
 import MembershipLevel from '@/components/members/MembershipLevel'
+import { toggle_mfa } from '@/actions/auth';
+
 
 const Profile = () => {
 
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session);           // true means we should redirect to login page if the user is not authenticated
-    const [mfaLoading, setMFALoading] = useState(false);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const user = useSelector(state => state.auth.user); 
+    const [loading, setLoading] = useState(false)
+    const enableMfa = useSelector(state => state.auth.user?.enableMFA); 
+    const mfaChangeSuccess = useSelector(state => state.auth.mfa_change_success); 
+
     const [errorMsg, setErrorMsg] = useState("");
     const router = useRouter();
+    const dispatch = useDispatch();
 
+    if (typeof window !== 'undefined' && !loading && !isAuthenticated){
+        
+        // If unathenticated redirect them back to login page
+        router.push('/login');
+    }
 
     const MfaToggleButton = async (event) => { 
 
         event.preventDefault();
 
-        setMFALoading(true);
+        setLoading(true);
 
-        const data = {
-          UserName: session.user?.username,
-          MfaSwitch: !session.MFA_Enabled
-        }
-      
-        const JSONdata = JSON.stringify(data)
-    
-        // Form the request for sending data to the server.
-        const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSONdata,
-        }
-    
-        // Send the form data to our API
-        // Leave the url like this to avoid CORS errors. No ${HOMEPAGE_URL}
-        let token = session?.user.accessToken;
-        const response = await fetch(`/api/toggle-mfa-requests/${token}`, options)
-    
-        // Get the response data from server as JSON.
-        // If server returns the name submitted, that means the form works.
-        const result = await response.json();
+        const mfaSwitch = !enableMfa;
 
-        setMFALoading(false);
+        dispatch(toggle_mfa(mfaSwitch))
 
-        // User will be logged out on this page, easiest way to update the session object.
-        if (result.success){
+        // User will be logged out on this page.
+        if (mfaChangeSuccess){
             router.push('/members/mfaChange-success');
         }
         else {
-            // Display the API Error Message On The Page
-            setErrorMsg(result.message);
+            setErrorMsg("Error! Sorry, we could not change the MFA.");
         }
 
+        setLoading(false);
 
     }
 
@@ -69,7 +55,7 @@ const Profile = () => {
     return (
         <>
         {isAuthenticated ?
-            <Layout
+            <MembersLayout
                 title='User Profile'
                 description='User Profile And Settings'
             >
@@ -82,10 +68,10 @@ const Profile = () => {
                                 </div>
                                 <div className={styles.profileTextContainer}>
                                     <div className={styles.profileText}>
-                                        <p><span className={styles.profileCategoryName}><b>ID:</b></span> {session?.user.id}</p>
-                                        <p><span className={styles.profileCategoryName}><b>UserName:</b></span> {session?.user.username}</p>
-                                        <p><span className={styles.profileCategoryName}><b>Email:</b></span> {session?.user.email} </p>
-                                        <p><span className={styles.profileCategoryName}><b>Membership Level:</b></span> <MembershipLevel roles={session?.user.roles}/> </p>
+                                        <p><span className={styles.profileCategoryName}><b>ID:</b></span> {user !== null && user.id}</p>
+                                        <p><span className={styles.profileCategoryName}><b>UserName:</b></span> {user !== null && user.userName}</p>
+                                        <p><span className={styles.profileCategoryName}><b>Email:</b></span> {user !== null && user.email} </p>
+                                        <p><span className={styles.profileCategoryName}><b>Membership Level:</b></span> <MembershipLevel roles={user?.roles}/> </p>
                                     </div>
                                 </div>
                                 <div className={styles.profileChangeContainer}>
@@ -96,12 +82,15 @@ const Profile = () => {
                                         <br />
                                     </div>
                                     <div>
+                                        { loading ? (<p>loading is true</p>) : ( <p>loading is false</p>)}
+                                    </div>
+                                    <div>
                                         {/* MFA Toogle Switch Loading Spinner */}
                                         {
-                                            mfaLoading ? (
+                                            loading ? (
                                                     <p className="text-center"><SyncLoader
                                                         color='blue'
-                                                        loading={mfaLoading}
+                                                        loading={loading}
                                                         size={8}
                                                         aria-label="Loading Spinner"
                                                         data-testid="loader"
@@ -109,7 +98,7 @@ const Profile = () => {
                                             ) : (
                                                 <div>
                                                     <p><b>Multi-Factor Authentication: </b></p>
-                                                    { session?.MFA_Enabled ?
+                                                    { enableMfa ?
                                                         <div><button type="submit" className="btn btn-primary w-100" onClick={MfaToggleButton}>Disable</button></div>
                                                         :
                                                         <div><button type="submit" className="btn btn-primary w-100" onClick={MfaToggleButton}>Enable</button></div>
@@ -128,13 +117,25 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-            </Layout>
+            </MembersLayout>
         : 
         <div>
             <div className="text-center">
-                <p>Error: User Signed Out! Login to access this page.</p>
-                <p><Link href="/members/login">Login</Link></p>
-            </div>
+                    <div className="d-flex col align-items-center justify-content-center">
+                        <SyncLoader
+                            color='blue'
+                            loading={true}
+                            size={20}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+                    </div>
+                    <div className="d-flex col align-items-center justify-content-center">
+                        <br />
+                        <p>Logging in...</p>
+                        <p><Link href="/login">Login</Link></p>
+                    </div>
+                </div>
         </div>
         }
         </>

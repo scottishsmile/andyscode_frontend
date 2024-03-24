@@ -118,7 +118,7 @@ const ForgotPass= () => {
                                 )}
                             </Formik>
                             <div className={styles.passwordBoxTextBottom}>
-                            <p className="text-success text-center"><Link href='/members/login' className={styles.passwordBoxLink}>Back To Login</Link></p>
+                            <p className="text-success text-center"><Link href='/login' className={styles.passwordBoxLink}>Back To Login</Link></p>
                             </div>
                             <div>
                                 <p className="text-danger text-center">{errorMsg?.error}</p>

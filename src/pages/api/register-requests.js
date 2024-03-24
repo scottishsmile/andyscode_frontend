@@ -9,18 +9,13 @@ const RegisterReq = async (req, res) => {
     if (req.method === 'POST') {
 
         // Get the values from the body of the POST request.
-        const {
-            Email,
-            UserName,
-            Password,
-            Newsletter
-        } = req.body;
+        const {data} = req.body;
 
         const body = JSON.stringify({
-            Email,
-            UserName,
-            Password,
-            Newsletter
+            Email: data.Email,
+            UserName: data.UserName,
+            Password: data.Password,
+            Newsletter: data.Newsletter
         });
 
         try {
@@ -45,10 +40,9 @@ const RegisterReq = async (req, res) => {
             } else {
                 // Fail. Return the API error message.
 
-                logger.warn(`api/register-requests.js - Registration failed. API request failed. Status: ${apiRes.status} Error: ${data.error} Message: ${data.message} Email: ${Email} UserName: ${UserName}`);
+                logger.warn(`api/register-requests.js - Registration failed. API request failed. Status: ${apiRes.status} Message: ${data.message}`);
 
                 return res.status(apiRes.status).json({
-                    error: data.error,                  // Return API Error
                     success: data.success, 
                     message: data.message               // Return API Message
                 });
