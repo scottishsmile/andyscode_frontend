@@ -1,28 +1,35 @@
 'use client'
 // Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
-import Layout from '@/shared/Layout';
+import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/Payment.module.scss'
-import useAuth from '@/auth/useAuth'
-import { useSession } from "next-auth/react"
 import ThingsToBuy from '@/components/members/ThingsToBuy';
-import {PAYMENT_RETURN_URL} from '@/constants/constants';
+import { PAYMENT_RETURN_URL } from '@/constants/constants';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 const Payment = () => {
 
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session);       // true means we should redirect to login page if the user is not authenticated
-    const roles = session?.user.roles;           // Roles Array ["AppBasic", "AppPremium"]
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const accessToken = useSelector(state => state.auth.accessToken); 
+    const user = useSelector(state => state.auth.user);
+    const roles = user?.roles;           // Roles Array ["AppBasic", "AppPremium"]
+    const router = useRouter();
 
+    if (typeof window !== 'undefined' && !isAuthenticated){
+        
+        // If unathenticated redirect them back to login page
+        router.push('/login');
+    }
 
     // This is NEXT_PUBLIC!!!
     // Need to rewite this to make it a POST to Paypal API.
-    let paymentReturnUrl = `${PAYMENT_RETURN_URL}/UpgradeToPremium?Id=${session?.user.id}&UserName=${session?.user.username}&Token=${session?.accessToken}`
+    let paymentReturnUrl = `${PAYMENT_RETURN_URL}/UpgradeToPremium?Id=${user?.id}&UserName=${user?.userName}&Token=${accessToken}`
 
     return (
         <>
         {isAuthenticated ?
-            <Layout
+            <MembersLayout
                 title='Payment'
                 description='Payment Page'
             >
@@ -32,12 +39,12 @@ const Payment = () => {
                         <ThingsToBuy roles={roles} paymentReturnUrl={paymentReturnUrl} />
                     </div>
                 </div>
-            </Layout>
+            </MembersLayout>
             : 
             <div>
                 <div className="text-center">
                     <p>Error: User Signed Out! Login to access this page.</p>
-                    <p><Link href="/members/login">Login</Link></p>
+                    <p><Link href="/login">Login</Link></p>
                 </div>
             </div>
         }

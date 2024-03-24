@@ -1,7 +1,7 @@
 'use client'
 // Have 'use client' here to make this a dynamic page. In production everything is static by default, so react hooks won't work without this.
 import Link from 'next/link'
-import Layout from '@/shared/Layout';
+import MembersLayout from '@/shared/members/MembersLayout';
 import styles from '@/styles/members/ResetPass.module.scss'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
@@ -9,18 +9,26 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import {SyncLoader} from 'react-spinners';                      // npm install --save react-spinners
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { useSession } from 'next-auth/react';
-import useAuth from '@/auth/useAuth'
+import { useSelector } from 'react-redux';
+
 
 
 const ResetPass = () => {
 
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const user = useSelector(state => state.auth.user); 
+    const accessToken = useSelector(state => state.auth.accessToken); 
+
     const [loading, setLoading] = useState(false);          // Loading spinner on when true.
     const [errorMsg, setErrorMsg] = useState("");
     const router = useRouter();
-    const { data: session} = useSession();
-    const isAuthenticated = useAuth(true, session); 
-    
+
+    if (typeof window !== 'undefined' && !isAuthenticated){
+        
+        // If unathenticated redirect them back to login page
+        router.push('/login');
+    }
+
 
     // Formik Validation rules using Yup
     // validationSchema={validate} in <Formik /> below.
@@ -45,9 +53,9 @@ const ResetPass = () => {
         // Toggle loading spinner ON
         setLoading(true);
     
-        // Make the DTO. Mix of session store and form data
+        // Make the DTO.
         const formData = {
-            UserName: session?.user.username,
+            UserName: user?.userName,
             NewPassword: event.target.password1.value,
         };
 
@@ -66,8 +74,7 @@ const ResetPass = () => {
         // Send the request to the API
         // Use NextJS Dynamic Routes to pass the token as a query string to the api folder requests module.
         // https://nextjs.org/docs/api-routes/dynamic-api-routes
-        let token = session?.user.accessToken;
-        const response = await fetch(`/api/resetpass-requests/${token}`, options)
+        const response = await fetch(`/api/resetpass-requests/${accessToken}`, options)
         .then((res) => {
             if(res.ok){
                 return res;
@@ -102,7 +109,7 @@ const ResetPass = () => {
     return (
         <>
         {isAuthenticated ?
-            <Layout
+            <MembersLayout
             title='Reset Pass'
             description='Password Reset Page'>
                 <div className={styles.pagecontainer}>
@@ -122,13 +129,13 @@ const ResetPass = () => {
                                             <h3 className={styles.passwordBoxHeader}>Change Password</h3>
                                             <Form onSubmit={ForgotPassSubmit}>
                                             <div className="mb-4">
-                                                    <label htmlFor="password1" className="form-label"><b className={styles.passwordBoxText}>Password</b></label>
+                                                    <label htmlFor="password1" className="form-label"><b className={styles.passwordBoxText}>New Password</b></label>
                                                     <Field type="password" id="password1"  name="password1" className="form-control" placeholder="" autoComplete="off" aria-describedby="password1Help" required/>
                                                     <div id="password1Help" className="form-test"><span className={styles.passwordBoxText}>Passwords must be min 8 letters and include Uppercase, numbers and special characters.</span></div>
                                                     <ErrorMessage name="password1" className="text-danger" component="div" />
                                             </div>
                                                 <div className="mb-4">
-                                                    <label htmlFor="password2" className="form-label"><b className={styles.passwordBoxText}>Password Confirmation</b></label>
+                                                    <label htmlFor="password2" className="form-label"><b className={styles.passwordBoxText}>New Password Confirmation</b></label>
                                                     <Field type="password" id="password2" name="password2" className="form-control" placeholder="" autoComplete="off" aria-describedby="password2Help" required/>
                                                     <div id="password2Help" className="form-test"><span className={styles.passwordBoxText}>Enter the same password again</span></div>
                                                     <ErrorMessage name="password2" className="text-danger" component="div" />
@@ -164,11 +171,11 @@ const ResetPass = () => {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </MembersLayout>
     : 
     <div>
         <p>Loading... Taking too long? Try:</p>
-        <p><Link href="/members/login">Login</Link></p>
+        <p><Link href="/login">Login</Link></p>
     </div>
     }
     </>
