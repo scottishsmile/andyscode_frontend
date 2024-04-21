@@ -16,20 +16,36 @@ export default async (req, res) => {
             let accessTokenExpiry = new Date(0).toISOString();                                  // Date(0) is 1970
 
             if(cookies !== '' && cookies !== undefined){
-                const refreshCookieDecoded = decodeURI(cookies[REFRESH_COOKIE_NAME]).trim();        // The cookie value is in base64 url format. Converts into a srting.
-                const accessCookieDecoded = decodeURI(cookies[ACCESS_COOKIE_NAME]).trim(); 
+                let refreshCookie = cookies[REFRESH_COOKIE_NAME];
 
-                const refreshData = await JSON.parse(refreshCookieDecoded);               // Convert the string into JSON.
-                const accessData = await JSON.parse(accessCookieDecoded); 
+                if(refreshCookie !== undefined){
+                    const refreshCookieDecoded = decodeURI(refreshCookie).trim();        // The cookie value is in base64 url format. Converts into a srting.        
 
-                userName  =  accessData.username ?? false;
-                refreshToken = refreshData.refreshToken ?? false;
-                refreshTokenExpiry = refreshData.refreshTokenExpiry;
-                accessToken = accessData.accessToken ?? false;
-                accessTokenExpiry = accessData.accessTokenExpiry;
+                    const refreshData = await JSON.parse(refreshCookieDecoded);               // Convert the string into JSON.
+
+                    userName  =  refreshData.username ?? false;       // Get username from refresh token! The access token will be deleted by the browser when it reaches its maxAge.
+                    refreshToken = refreshData.refreshToken ?? false;
+                    refreshTokenExpiry = refreshData.refreshTokenExpiry;
+                }
+
+                // The access token will be deleted by the browser once it reaches it's maxAge.
+                // It might not exist when user opens the site again.
+                let accessCookie = cookies[ACCESS_COOKIE_NAME];
+
+                if(accessCookie !== undefined ){
+                    const accessCookieDecoded = decodeURI(accessCookie).trim(); 
+
+                    const accessData = await JSON.parse(accessCookieDecoded); 
+
+                    if(accessData != null){
+                        accessToken = accessData.accessToken ?? false;
+                        accessTokenExpiry = accessData.accessTokenExpiry;
+                    }
+                }
             }
 
             if (refreshToken === false  || refreshToken === undefined || userName === false || userName === undefined) {
+
                 return res.status(401).json({
                     error: 'User unauthorized to make this request'
                 });
@@ -59,6 +75,9 @@ export default async (req, res) => {
             let refreshed = await RefreshAccessToken(refreshToken, userName);
 
             if(refreshed === false){
+
+                // TESTING
+                console.log(`api/refresh.js - RefreshAccessToken() failed`);
 
                 return res.status(500).json({
                     error: 'Refresh Token Not Renewed. User Logged Out.'
@@ -110,9 +129,11 @@ export default async (req, res) => {
                 success: 'Refresh request successful',
             });
 
-
         } catch(err) {
 
+            // TESTING
+            console.log(`api/refresh.js - Error: `, err);
+            
             return res.status(500).json({
                 error: 'Exception when processing refresh request'
             });
