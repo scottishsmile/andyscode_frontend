@@ -1,5 +1,5 @@
 import cookie from 'cookie';
-import { ACCESS_COOKIE_NAME, REFRESH_COOKIE_NAME, ACCESS_COOKIE_MAX_AGE, REFRESH_COOKIE_MAX_AGE } from '@/constants/constants';
+import { ACCESS_COOKIE_NAME, REFRESH_COOKIE_NAME, COOKIE_DOMAIN, ACCESS_COOKIE_MAX_AGE, REFRESH_COOKIE_MAX_AGE } from '@/constants/constants';
 import moment from 'moment';
 import RefreshAccessToken from './refreshAccessToken.js';
 
@@ -107,6 +107,7 @@ export default async (req, res) => {
                 cookie.serialize(
                     `${ACCESS_COOKIE_NAME}`, accessJson, {
                         httpOnly: true,
+                        domain: `${COOKIE_DOMAIN}`,
                         secure: process.env.NODE_ENV !== 'development',
                         maxAge: ACCESS_COOKIE_MAX_AGE,                                            // Use expires: <token expiry date in UTC>
                         sameSite: 'lax',
@@ -116,6 +117,7 @@ export default async (req, res) => {
                 cookie.serialize(
                     `${REFRESH_COOKIE_NAME}`, refreshJson, {
                         httpOnly: true,
+                        domain: `${COOKIE_DOMAIN}`,
                         secure: process.env.NODE_ENV !== 'development',
                         maxAge: REFRESH_COOKIE_MAX_AGE,                                       // Use expires: <token expiry date in UTC>
                         sameSite: 'lax',
