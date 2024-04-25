@@ -107,7 +107,7 @@ export default async (req, res) => {
                 cookie.serialize(
                     `${ACCESS_COOKIE_NAME}`, accessJson, {
                         httpOnly: true,
-                        domain: `${COOKIE_DOMAIN}`,
+                        domain: COOKIE_DOMAIN,
                         secure: process.env.NODE_ENV !== 'development',
                         maxAge: ACCESS_COOKIE_MAX_AGE,                                            // Use expires: <token expiry date in UTC>
                         sameSite: 'lax',
@@ -117,7 +117,7 @@ export default async (req, res) => {
                 cookie.serialize(
                     `${REFRESH_COOKIE_NAME}`, refreshJson, {
                         httpOnly: true,
-                        domain: `${COOKIE_DOMAIN}`,
+                        domain: COOKIE_DOMAIN,
                         secure: process.env.NODE_ENV !== 'development',
                         maxAge: REFRESH_COOKIE_MAX_AGE,                                       // Use expires: <token expiry date in UTC>
                         sameSite: 'lax',
