@@ -8,7 +8,7 @@ export const ACCESS_COOKIE_NAME = 'andyscode_access';
 export const REFRESH_COOKIE_NAME = 'andyscode_refresh';
 export const ACCESS_COOKIE_MAX_AGE = 60 * 60;                   // Must match token settings in backend. Cookie library uses seconds!
 export const REFRESH_COOKIE_MAX_AGE = 60 * 10080;               // Must match token settings in backend. Cookie library uses seconds!
-export const COOKIE_DOMAIN = 'andys-code.com';                  // Use the main TLD domain not the www. one
+export const COOKIE_DOMAIN = 'www.andys-code.com';                  // Use the full www.example.com domain as it will also match example.com domain.
 
 
 // PUBLIC info available in frontend. Environment Variables.
